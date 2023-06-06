@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   initialize_philo.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/06 17:07:21 by raanghel      ########   odam.nl         */
+/*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
+/*   Updated: 2023/06/06 17:06:16 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philo.h"
 
-int	main( int argc, char **argv)
+
+
+int	initialize_data(t_data *data, char **argv)
 {
-	t_data	*data;
-	
-	if (argc > 5)
-		raise_error("Program should have 4 arguments.");
-	data = malloc(sizeof(t_data));
-	if (!data)
-		raise_error("Failed to allocate memory for data struct");
-
-	if (initialize_data(data, argv) == 1)
+	if (check_digit(argv[1]) == 1)
 	{
-		raise_error("Failed to initialize data struct");
-		return (1);
+		raise_error("Nr of philosophers should be a digit");
+		return (0);
 	}
-
-	printf("Nr philo: %d\n", data->nr_philo);
+	data->nr_philo = ft_atoi(argv[1]);
 	return (0);
 }
+
+// void	create_philo(t_philo *philo)
+// {
+	
+// }
