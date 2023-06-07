@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/06/06 17:13:01 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/06 20:34:56 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef	struct			s_philo
 
 typedef	struct			s_data
 {
-	int					nr_philo;
+	long int			nr_philo;
 	int					die_time;
 	int					eat_time;
 	int					sleep_time;
@@ -53,8 +53,10 @@ typedef	struct			s_data
 //-------UTILS-------//
 
 void			raise_error(char *message);
-int				ft_atoi(const char *str);
+long int		ft_atoi(const char *str);
 int				check_digit(char *str);
+int				ft_strlen(const char *s);
+
 
 
 

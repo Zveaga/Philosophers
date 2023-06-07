@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/06 17:21:18 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/06 20:36:27 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ void	raise_error(char *message)
 	printf("%s\n", message);
 }
 
+int	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		i++;
+	}
+	return (i);
+}
 
 int	check_digit(char *str)
 {
@@ -42,11 +53,11 @@ int	check_digit(char *str)
 	return (0);
 }
 
-int	ft_atoi(const char *str)
+long int	ft_atoi(const char *str)
 {
-	int		i;
-	int		sign;
-	long	number;
+	int			i;
+	int			sign;
+	long int	number;
 
 	i = 0;
 	sign = 1;
@@ -65,11 +76,6 @@ int	ft_atoi(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		number = number * 10 + str[i] - '0';
-		if (number < -2147483648 || number > 2147483647)
-		{
-			printf("NR exceeds int max/min\n");
-			exit(1);
-		}
 		i++;
 	}
 	return (number * sign);
