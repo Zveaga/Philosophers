@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/06/07 16:24:44 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/08 18:08:59 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef	struct			s_data
 	long int			start_time;
 	t_philo				*philos;
 	pthread_mutex_t 	*forks;
+	pthread_mutex_t		philo_created;
 	
 }						t_data;
 
@@ -63,10 +64,13 @@ int				ft_strlen(const char *s);
 
 //-------INITIALIZE-------//
 
-int			initialize_data(t_data *data, char **argv);
+int				initialize_data(t_data *data, char **argv);
+int				initialize_philo(t_data *data);
+int				initialize_forks(t_data *data);
 
 
-//-------STRUCTS-------//
+//-------FREE-------//
+int				destroy_mutex(t_data *data);
 //-------STRUCTS-------//
 
 

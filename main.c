@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/07 15:26:05 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/08 18:15:07 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,25 @@ int	main( int argc, char **argv)
 		return (1);
 	}
 
-	printf("Nr philo: %d\n", data->nr_philo);
-	printf("Die time: %d\n", data->nr_philo);
-	printf("Eat_time: %d\n", data->nr_philo);
-	printf("Sleep_time: %d\n", data->nr_philo);
+	if (initialize_forks(data) == 1)
+	{
+		raise_error("Failed to initialize forks");
+		return (1);
+	}
+	if (initialize_philo(data) == 1)
+	{
+		raise_error("Failed to initialize philo");
+		return (1);
+	}
+
+	// printf("Nr philo: %d\n", data->nr_philo);
+	// printf("Die time: %d\n", data->nr_philo);
+	// printf("Eat_time: %d\n", data->nr_philo);
+	// printf("Sleep_time: %d\n", data->nr_philo);
+	// if (destroy_mutex(data) == 1)
+	// {
+	// 	printf("Failed to destroy mutex\n");		
+	// 	return (1);
+	// }
 	return (0);
 }

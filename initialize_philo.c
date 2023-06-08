@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/07 17:45:22 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/08 18:40:15 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,29 +103,38 @@ int	initialize_data(t_data *data, char **argv)
 
 static void	*routine(void *philos)
 {
-	t_data	*data;
+	//usleep(50);
+	//printf("--DB--\n");
+	//t_data	*data;
 	t_philo	*philo;
-	
-	philo = (t_philo *) philo;
-	//int	philo = *(int *) philos;
+	int		i;
 	
 	
-	printf("Thread_id: %d\n", philos);
+	philo = (t_philo *) philos;
+	//pthread_mutex_lock(&philo->data->forks[0]);
+	
+	//data = philo->data;
+	i = philo->pos;
+	
+	
+	
+	//pthread_mutex_unlock(&philo->data->forks[0]);
+	printf("Thread %d\n", i);
 	return (NULL);
 }
 
-int	initilize_philo(t_data *data)
+int	initialize_philo(t_data *data)
 {
-	t_philo		*philo;
 	int			i;
 	
-	i = 0;
-	philo = malloc(data->nr_philo * sizeof(t_philo));
-	if (philo == NULL)
+	data->philos = malloc(data->nr_philo * sizeof(t_philo));
+	if (data->philos == NULL)
 		return (1);
-	
+	//printf("1\n");
+	i = 0;
 	while (i < data->nr_philo)
 	{
+		//printf("3\n");
 		if (pthread_create(&data->philos[i].thread_id, NULL, &routine, &data->philos[i]) != 0)
 			return (1);
 		
@@ -133,7 +142,54 @@ int	initilize_philo(t_data *data)
 		data->philos[i].ms = 0;
 		data->philos[i].data = data;
 		data->philos[i].time_last_meal = 0;
+		//printf("Thread %d started.\n", i);
 		i++;
+		usleep(100);
+	}
+	
+	//printf("2\n");
+	i = 0;
+	while (i < data->nr_philo)
+	{
+		if (pthread_join(data->philos[i].thread_id, NULL) != 0)
+			return (1);
+		//printf("Thread %d completed.\n", i);
+		i++;
+		//usleep(100);
 	}
 	return (0);	
+}
+
+int	initialize_forks(t_data *data)
+{
+	int	i;
+
+	data->forks = malloc(data->nr_philo * sizeof(pthread_mutex_t));
+	if (data->forks == NULL)
+		return (1);
+	i = 0;
+	while (i < data->nr_philo)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+			return (1);
+		i++;
+	}
+	// if (pthread_mutex_init(&data->philo_created, NULL) != 0)
+	// 		return (1);
+	return (2);
+}
+
+int	destroy_mutex(t_data *data)
+{
+	int	i;
+
+	
+	i = 0;
+	while (i < data->nr_philo)
+	{
+		if (pthread_mutex_destroy(&data->forks[i]) != 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }
