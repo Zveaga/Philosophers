@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/08 18:40:15 by rares         ########   odam.nl         */
+/*   Updated: 2023/06/09 17:52:45 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	initialize_data(t_data *data, char **argv)
 	data->die_time = ft_atoi(argv[2]);
 	data->eat_time = ft_atoi(argv[3]);
 	data->sleep_time = ft_atoi(argv[4]);
+	data->start_time = 0;
+	data->counter = 1;
 	return (0);
 }
 
@@ -105,28 +107,55 @@ static void	*routine(void *philos)
 {
 	//usleep(50);
 	//printf("--DB--\n");
-	//t_data	*data;
+	t_data	*data;
 	t_philo	*philo;
 	int		i;
 	
-	
+	//printf("1\n");
 	philo = (t_philo *) philos;
-	//pthread_mutex_lock(&philo->data->forks[0]);
-	
-	//data = philo->data;
 	i = philo->pos;
+	data = philo->data;
+	pthread_mutex_lock(&philo->data->forks[0]);
 	
+	if (i != data->counter)
+	{
+		pthread_mutex_unlock(&philo->data->forks[0]);
+		pthread_mutex_lock(&philo->data->forks[0]);
+	}
+
+	//printf("%d ", i);
 	
+	data->counter++;
 	
-	//pthread_mutex_unlock(&philo->data->forks[0]);
-	printf("Thread %d\n", i);
+	pthread_mutex_unlock(&philo->data->forks[0]);
 	return (NULL);
 }
+
+// static void	*routine(void *philos)
+// {
+// 	t_philo	*philo;
+// 	int		i;
+
+// 	usleep(500);
+// 	philo = (t_philo *) philos;
+// 	i = philo->pos;
+	
+// 	pthread_mutex_lock(&philo->data->forks[0]);
+	
+// 	printf("%d ", i);
+// 	pthread_mutex_unlock(&philo->data->forks[0]);
+	
+// 	return (NULL);
+// }
 
 int	initialize_philo(t_data *data)
 {
 	int			i;
 	
+	data->start_time = curret_time();
+	//printf("\nStart time: %ld\n\n", data->start_time);
+	if (data->start_time == -1)
+		return (1);
 	data->philos = malloc(data->nr_philo * sizeof(t_philo));
 	if (data->philos == NULL)
 		return (1);
@@ -137,14 +166,15 @@ int	initialize_philo(t_data *data)
 		//printf("3\n");
 		if (pthread_create(&data->philos[i].thread_id, NULL, &routine, &data->philos[i]) != 0)
 			return (1);
-		
 		data->philos[i].pos = i + 1;
 		data->philos[i].ms = 0;
 		data->philos[i].data = data;
 		data->philos[i].time_last_meal = 0;
-		//printf("Thread %d started.\n", i);
+		data->philos[i].left_fork = i;
+		if (i == 0)
+			data->philos[i].right_fork = data->nr_philo - 1;	
+		data->philos[i].right_fork = i - 1;
 		i++;
-		usleep(100);
 	}
 	
 	//printf("2\n");
@@ -153,9 +183,7 @@ int	initialize_philo(t_data *data)
 	{
 		if (pthread_join(data->philos[i].thread_id, NULL) != 0)
 			return (1);
-		//printf("Thread %d completed.\n", i);
-		i++;
-		//usleep(100);
+		i++;  
 	}
 	return (0);	
 }
@@ -176,7 +204,7 @@ int	initialize_forks(t_data *data)
 	}
 	// if (pthread_mutex_init(&data->philo_created, NULL) != 0)
 	// 		return (1);
-	return (2);
+	return (0);
 }
 
 int	destroy_mutex(t_data *data)

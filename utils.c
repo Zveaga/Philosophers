@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/07 15:24:23 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/09 15:09:42 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,18 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (number);
+}
+
+
+long int	curret_time(void)
+{
+	struct	timeval		tv;
+	long int			current_time;	
+
+	if (gettimeofday(&tv, NULL) != 0)
+		return (-1);
+		
+	//current_time = (tv.tv_sec) + (tv.tv_usec);
+	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+	return (current_time);
 }

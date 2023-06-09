@@ -6,11 +6,23 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/08 18:15:07 by rares         ########   odam.nl         */
+/*   Updated: 2023/06/09 17:53:11 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philo.h"
+
+void print_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nr_philo)
+	{
+		printf("Philo %d: lf %d and rf %d\n", i + 1 , data->philos[i].left_fork, data->philos[i].right_fork);
+		i++;
+	}
+}
 
 int	main( int argc, char **argv)
 {
@@ -41,7 +53,7 @@ int	main( int argc, char **argv)
 		raise_error("Failed to initialize philo");
 		return (1);
 	}
-
+	print_forks(data);
 	// printf("Nr philo: %d\n", data->nr_philo);
 	// printf("Die time: %d\n", data->nr_philo);
 	// printf("Eat_time: %d\n", data->nr_philo);
@@ -51,5 +63,8 @@ int	main( int argc, char **argv)
 	// 	printf("Failed to destroy mutex\n");		
 	// 	return (1);
 	// }
+
+	
 	return (0);
 }
+

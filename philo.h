@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/06/08 18:08:59 by rares         ########   odam.nl         */
+/*   Updated: 2023/06/09 15:58:29 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef	struct			s_philo
 
 typedef	struct			s_data
 {
+	int					counter;
 	int					nr_philo;
 	int					die_time;
 	int					eat_time;
@@ -53,10 +54,12 @@ typedef	struct			s_data
 
 //-------UTILS-------//
 
-void			raise_error(char *message);
-int				ft_atoi(const char *str);
-int				check_digit(char *str);
-int				ft_strlen(const char *s);
+void				raise_error(char *message);
+int					ft_atoi(const char *str);
+int					check_digit(char *str);
+int					ft_strlen(const char *s);
+long int			curret_time(void);
+
 
 
 
@@ -64,13 +67,13 @@ int				ft_strlen(const char *s);
 
 //-------INITIALIZE-------//
 
-int				initialize_data(t_data *data, char **argv);
-int				initialize_philo(t_data *data);
-int				initialize_forks(t_data *data);
+int					initialize_data(t_data *data, char **argv);
+int					initialize_philo(t_data *data);
+int					initialize_forks(t_data *data);
 
 
 //-------FREE-------//
-int				destroy_mutex(t_data *data);
+int					destroy_mutex(t_data *data);
 //-------STRUCTS-------//
 
 
