@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/06/09 15:58:29 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/22 21:32:39 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ typedef	struct			s_philo
 }						t_philo;
 
 typedef	struct			s_data
-{
-	int					counter;
+{					
+	//int					counter;
 	int					nr_philo;
+	int					eat_rounds;
 	int					die_time;
 	int					eat_time;
 	int					sleep_time;
 	long int			start_time;
 	t_philo				*philos;
 	pthread_mutex_t 	*forks;
-	pthread_mutex_t		philo_created;
-	
+	pthread_mutex_t		start_mutex;
 }						t_data;
 
 //-------UTILS-------//
@@ -59,9 +59,6 @@ int					ft_atoi(const char *str);
 int					check_digit(char *str);
 int					ft_strlen(const char *s);
 long int			curret_time(void);
-
-
-
 
 
 

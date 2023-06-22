@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/09 17:53:11 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/06/22 20:02:03 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void print_forks(t_data *data)
 	i = 0;
 	while (i < data->nr_philo)
 	{
-		printf("Philo %d: lf %d and rf %d\n", i + 1 , data->philos[i].left_fork, data->philos[i].right_fork);
+		printf("Philo %d: lf %d and rf %d\n", i + 1 , data->philos[i].left_fork + 1, data->philos[i].right_fork + 1);
 		i++;
 	}
 }
@@ -58,11 +58,11 @@ int	main( int argc, char **argv)
 	// printf("Die time: %d\n", data->nr_philo);
 	// printf("Eat_time: %d\n", data->nr_philo);
 	// printf("Sleep_time: %d\n", data->nr_philo);
-	// if (destroy_mutex(data) == 1)
-	// {
-	// 	printf("Failed to destroy mutex\n");		
-	// 	return (1);
-	// }
+	if (destroy_mutex(data) == 1)
+	{
+		printf("Failed to destroy mutex\n");		
+		return (1);
+	}
 
 	
 	return (0);
