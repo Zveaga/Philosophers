@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/22 21:50:23 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/10 20:25:27 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,51 +134,26 @@ static void	*routine(void *philo_pt)
 	philos = (t_philo *) philo_pt;
 	data = philos->data;
 	i = philos->pos;
-	
-	
-	//if (data->philos[i - 1].is_eating == false)
-	// {	
-		pthread_mutex_lock(&data->start_mutex);
 		
-		if (i % 2 == 0)
 		{	
 			
 			pthread_mutex_lock(&data->forks[philos[i - 1].left_fork]);	
-			pfffffrrrrrrintf("Philo %d took left_fork (%d)\n", i, data->philos[i - 1].left_fork + 1);
+			printf("Philo %d took left_fork (%d)\n", i, data->philos[i - 1].left_fork + 1);
 			
 			pthread_mutex_lock(&data->forks[philos[i - 1].right_fork]);
 			printf("Philo %d took right_fork (%d)\n", i, data->philos[i - 1].right_fork + 1);
 			
-			//pthread_mutex_lock(&data->start_mutex);
+			pthread_mutex_lock(&data->eating);
 			printf("Philo %d is eating...\n\n", i);
-			usleep(2000);
-			data->philos[i - 1].is_eating = true;
-			
-			//pthread_mutex_unlock(&data->start_mutex);
+			usleep(rand() % 1000000);
+			pthread_mutex_unlock(&data->eating);
 			
 			pthread_mutex_unlock(&data->forks[philos[i - 1].left_fork]);
 			printf("Philo %d released left_fork (%d)\n", i, data->philos[i - 1].left_fork + 1);
 			
 			pthread_mutex_unlock(&data->forks[philos[i - 1].right_fork]);
 			printf("Philo %d released right_fork (%d)\n", i, data->philos[i - 1].right_fork + 1);
-
-			pthread_mutex_unlock(&data->start_mutex);
-			usleep(1000);
-			//data->philos[i - 1].is_eating = false;
-			
 		}
-	// 	else
-	// 		return (NULL);
-	// // }
-	// else
-	// 	return (NULL);
-		//printf("Thread waiting...\n");
-	//pthread_mutex_unlock(&data->start_mutex);
-	//pthread_mutex_lock(&philo->data->forks[0]);
-	
-	//printf("%d ", i);
-	//pthread_mutex_unlock(&philo->data->forks[0]);
-	
 	return (NULL);
 }
 
@@ -193,7 +168,6 @@ int	initialize_philo(t_data *data)
 	data->philos = malloc(data->nr_philo * sizeof(t_philo));
 	if (data->philos == NULL)
 		return (1);
-	//printf("1\n");
 	i = 0;
 	while (i < data->nr_philo)
 	{
@@ -206,14 +180,13 @@ int	initialize_philo(t_data *data)
 		data->philos[i].time_last_meal = 0;
 		data->philos[i].data = data;
 		data->philos[i].left_fork = i;
+		//data->philos[i].right_fork = (i + 1) % data->nr_philo;
 		if (i == 0)
 			data->philos[i].right_fork = data->nr_philo - 1;
 		else	
 			data->philos[i].right_fork = i - 1;
 		i++;
 	}
-	
-	//printf("2\n");
 	i = 0;
 	while (i < data->nr_philo)
 	{
@@ -227,7 +200,8 @@ int	initialize_philo(t_data *data)
 int	initialize_forks(t_data *data)
 {
 	int	i;
-	if (pthread_mutex_init(&data->start_mutex, NULL) != 0)
+	
+	if (pthread_mutex_init(&data->eating, NULL) != 0)
 		return (1);
 	data->forks = malloc(data->nr_philo * sizeof(pthread_mutex_t));
 	if (data->forks == NULL)
@@ -239,10 +213,6 @@ int	initialize_forks(t_data *data)
 			return (1);
 		i++;
 	}
-	// data.start_mutex = malloc(sizeof(pthread_mutex_t));
-	// if (data.start_mutex == NULL)
-	// 	return(1);
-	
 	return (0);
 }
 
@@ -257,7 +227,7 @@ int	destroy_mutex(t_data *data)
 			return (1);
 		i++;
 	}
-	if (pthread_mutex_destroy(&data->start_mutex) != 0)
+	if (pthread_mutex_destroy(&data->eating) != 0)
 			return (1);
 	return (0);
 }

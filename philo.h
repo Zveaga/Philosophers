@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/06/22 21:32:39 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/10 20:19:36 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef	struct			s_data
 	long int			start_time;
 	t_philo				*philos;
 	pthread_mutex_t 	*forks;
-	pthread_mutex_t		start_mutex;
+	pthread_mutex_t		eating;
 }						t_data;
 
 //-------UTILS-------//
