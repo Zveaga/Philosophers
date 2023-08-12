@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/22 20:02:03 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/11 12:34:03 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main( int argc, char **argv)
 		raise_error("Failed to initialize philo");
 		return (1);
 	}
-	print_forks(data);
+	//print_forks(data);
 	// printf("Nr philo: %d\n", data->nr_philo);
 	// printf("Die time: %d\n", data->nr_philo);
 	// printf("Eat_time: %d\n", data->nr_philo);

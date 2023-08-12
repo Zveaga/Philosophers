@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/10 20:25:27 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/12 20:49:54 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,69 +91,90 @@ int	initialize_data(t_data *data, char **argv)
 // 	t_data	*data;
 // 	t_philo	*philo;
 // 	int		i;
-	
 // 	//printf("1\n");
 // 	philo = (t_philo *) philos;
 // 	i = philo->pos;
 // 	data = philo->data;
 // 	pthread_mutex_lock(&philo->data->forks[0]);
-	
 // 	if (i != data->counter)
 // 	{
 // 		pthread_mutex_unlock(&philo->data->forks[0]);
 // 		pthread_mutex_lock(&philo->data->forks[0]);
 // 	}
-
 // 	printf("%d ", i);
-	
 // 	data->counter++;
-	
 // 	pthread_mutex_unlock(&philo->data->forks[0]);
 // 	return (NULL);
 // }
-
 // void	take_left_fork(t_data *data, int fork_nr, int philo_nr)
 // {
 // 	pthread_mutex_lock(&data->forks[philos[fork_nr].left_fork]);
 // }
 // void	take_left_fork(int fork_nr, int philo_nr)
 // {
-	
 // }
-
-
 // void	start_eating
+
+
+// void	eat_action(t_data *data, int i)
+// {
+// 	pthread_mutex_lock(&data->forks[philos[i - 1].right_fork]);
+// 	printf("Philo %d took right_fork (%d)\n", i, data->philos[i - 1].right_fork + 1);
+		
+// 	pthread_mutex_lock(&data->forks[philos[i - 1].left_fork]);	
+// 	printf("Philo %d took left_fork (%d)\n", i, data->philos[i - 1].left_fork + 1);
+		
+		
+// 		//pthread_mutex_lock(&data->eating);
+// 	printf("Philo %d is eating...\n\n", i);
+// 	usleep(rand() % 1000000);
+// 	sleep(1);
+// 		//pthread_mutex_unlock(&data->eating);
+		
+// 	pthread_mutex_unlock(&data->forks[philos[i - 1].left_fork]);
+// 	printf("Philo %d released left_fork (%d)\n", i, data->philos[i - 1].left_fork + 1);
+		
+// 	pthread_mutex_unlock(&data->forks[philos[i - 1].right_fork]);
+// 	printf("Philo %d released right_fork (%d)\n", i, data->philos[i - 1].right_fork + 1);
+// }
 
 static void	*routine(void *philo_pt)
 {
-	t_philo		*philos;
-	t_data		*data;
-	int			i;
+	t_philo		*philo;
+	//t_data		*data;
 
 	//usleep(1000);
-	philos = (t_philo *) philo_pt;
-	data = philos->data;
-	i = philos->pos;
+	philo = (t_philo *) philo_pt;
+	//data = philos->data;
+	if (philo->pos % 2 == 0)
+		usleep(100);
+	// pthread_mutex_lock(&data->eating);
+
+	// usleep(30);
+	// printf("I am philo %d\n", i);
+	
+	// pthread_mutex_unlock(&data->eating);
+	while (philo->is_dead == false)
+	{	
+		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
+		printf("Philo %d took right_fork (%d)\n", philo->pos, philo->right_fork + 1);
 		
-		{	
-			
-			pthread_mutex_lock(&data->forks[philos[i - 1].left_fork]);	
-			printf("Philo %d took left_fork (%d)\n", i, data->philos[i - 1].left_fork + 1);
-			
-			pthread_mutex_lock(&data->forks[philos[i - 1].right_fork]);
-			printf("Philo %d took right_fork (%d)\n", i, data->philos[i - 1].right_fork + 1);
-			
-			pthread_mutex_lock(&data->eating);
-			printf("Philo %d is eating...\n\n", i);
-			usleep(rand() % 1000000);
-			pthread_mutex_unlock(&data->eating);
-			
-			pthread_mutex_unlock(&data->forks[philos[i - 1].left_fork]);
-			printf("Philo %d released left_fork (%d)\n", i, data->philos[i - 1].left_fork + 1);
-			
-			pthread_mutex_unlock(&data->forks[philos[i - 1].right_fork]);
-			printf("Philo %d released right_fork (%d)\n", i, data->philos[i - 1].right_fork + 1);
-		}
+		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);	
+		printf("Philo %d took left_fork (%d)\n", philo->pos, philo->left_fork + 1);
+		
+		
+		//pthread_mutex_lock(&data->eating);
+		printf("Philo %d is eating...\n\n", philo->pos);
+		usleep(rand() % 1000000);
+		//sleep(1);
+		//pthread_mutex_unlock(&data->eating);
+		
+		pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
+		printf("Philo %d released left_fork (%d)\n", philo->pos, philo->left_fork + 1);
+		
+		pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
+		printf("Philo %d released right_fork (%d)\n", philo->pos, philo->right_fork + 1);
+	}
 	return (NULL);
 }
 
@@ -162,7 +183,6 @@ int	initialize_philo(t_data *data)
 	int			i;
 	
 	data->start_time = curret_time();
-	//printf("\nStart time: %ld\n\n", data->start_time);
 	if (data->start_time == -1)
 		return (1);
 	data->philos = malloc(data->nr_philo * sizeof(t_philo));
@@ -171,20 +191,22 @@ int	initialize_philo(t_data *data)
 	i = 0;
 	while (i < data->nr_philo)
 	{
-		//printf("3\n");
-		if (pthread_create(&data->philos[i].thread_id, NULL, &routine, &data->philos[i]) != 0)
+		if (pthread_create(&data->philos[i].thread_id, NULL, &routine,
+				&data->philos[i]) != 0)
 			return (1);
 		data->philos[i].is_eating = false;
+		data->philos[i].is_dead = false;
+		data->philos[i].eat_rounds = 0;
 		data->philos[i].pos = i + 1;
 		data->philos[i].ms = 0;
 		data->philos[i].time_last_meal = 0;
 		data->philos[i].data = data;
 		data->philos[i].left_fork = i;
-		//data->philos[i].right_fork = (i + 1) % data->nr_philo;
 		if (i == 0)
 			data->philos[i].right_fork = data->nr_philo - 1;
 		else	
 			data->philos[i].right_fork = i - 1;
+		//data->philos[i].right_fork = (i + 1) % data->nr_philo;
 		i++;
 	}
 	i = 0;

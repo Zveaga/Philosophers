@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/10 20:19:36 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/12 19:57:31 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,18 @@
 
 //-------STRUCTS-------//
 
+// typedef enum			s_status
+// {
+// 	ALIVE,
+// 	DEAD,
+	
+// }
+
 typedef	struct			s_philo
 {	
 	bool				is_eating;
+	bool				is_dead;
+	int					eat_rounds;
 	int					pos;
 	int					ms;
 	int					left_fork;
@@ -42,7 +51,6 @@ typedef	struct			s_data
 {					
 	//int					counter;
 	int					nr_philo;
-	int					eat_rounds;
 	int					die_time;
 	int					eat_time;
 	int					sleep_time;
