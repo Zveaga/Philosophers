@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/12 20:49:54 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/13 19:55:14 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ static void	*routine(void *philo_pt)
 	philo = (t_philo *) philo_pt;
 	//data = philos->data;
 	if (philo->pos % 2 == 0)
-		usleep(100);
+		own_usleep(philo, 10);
 	// pthread_mutex_lock(&data->eating);
 
 	// usleep(30);
@@ -157,32 +157,37 @@ static void	*routine(void *philo_pt)
 	while (philo->is_dead == false)
 	{	
 		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-		printf("Philo %d took right_fork (%d)\n", philo->pos, philo->right_fork + 1);
+		output_message(philo, FORK_R);
 		
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);	
-		printf("Philo %d took left_fork (%d)\n", philo->pos, philo->left_fork + 1);
-		
+		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
+		output_message(philo, FORK_L);
 		
 		//pthread_mutex_lock(&data->eating);
-		printf("Philo %d is eating...\n\n", philo->pos);
-		usleep(rand() % 1000000);
+		output_message(philo, EAT);
+		own_usleep(philo, philo->data->eat_time);
 		//sleep(1);
 		//pthread_mutex_unlock(&data->eating);
 		
 		pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
-		printf("Philo %d released left_fork (%d)\n", philo->pos, philo->left_fork + 1);
+		output_message(philo, RLS_FORK_L);
 		
 		pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
-		printf("Philo %d released right_fork (%d)\n", philo->pos, philo->right_fork + 1);
+		output_message(philo, RLS_FORK_R);
+
+		
+		output_message(philo, SLEEP);
+		own_usleep(philo, philo->data->sleep_time);
+		
+		output_message(philo, THINK);		
 	}
 	return (NULL);
 }
 
-int	initialize_philo(t_data *data)
+int	initialize_philo_data(t_data *data)
 {
 	int			i;
 	
-	data->start_time = curret_time();
+	//data->start_time = current_time();
 	if (data->start_time == -1)
 		return (1);
 	data->philos = malloc(data->nr_philo * sizeof(t_philo));
@@ -191,9 +196,6 @@ int	initialize_philo(t_data *data)
 	i = 0;
 	while (i < data->nr_philo)
 	{
-		if (pthread_create(&data->philos[i].thread_id, NULL, &routine,
-				&data->philos[i]) != 0)
-			return (1);
 		data->philos[i].is_eating = false;
 		data->philos[i].is_dead = false;
 		data->philos[i].eat_rounds = 0;
@@ -209,14 +211,30 @@ int	initialize_philo(t_data *data)
 		//data->philos[i].right_fork = (i + 1) % data->nr_philo;
 		i++;
 	}
+	return (0);
+}
+
+int	create_philos(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nr_philo)
+	{
+		if (pthread_create(&data->philos[i].thread_id, NULL, &routine,
+				&data->philos[i]) != 0)
+			return (1);
+		i++;
+	}
 	i = 0;
 	while (i < data->nr_philo)
 	{
 		if (pthread_join(data->philos[i].thread_id, NULL) != 0)
 			return (1);
-		i++;  
+		i++;
 	}
-	return (0);	
+	return (0);
+	
 }
 
 int	initialize_forks(t_data *data)
@@ -224,6 +242,8 @@ int	initialize_forks(t_data *data)
 	int	i;
 	
 	if (pthread_mutex_init(&data->eating, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&data->printing, NULL) != 0)
 		return (1);
 	data->forks = malloc(data->nr_philo * sizeof(pthread_mutex_t));
 	if (data->forks == NULL)

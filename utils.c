@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/06/09 15:09:42 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/13 19:56:06 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,60 @@ int	ft_atoi(const char *str)
 }
 
 
-long int	curret_time(void)
+long int	current_time(void)
 {
 	struct	timeval		tv;
 	long int			current_time;	
 
 	if (gettimeofday(&tv, NULL) != 0)
 		return (-1);
-		
-	//current_time = (tv.tv_sec) + (tv.tv_usec);
 	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 	return (current_time);
+}
+
+void	own_usleep(t_philo *philo, long milliseconds)
+{
+	// struct timeval	start_time;
+	// struct timeval	end_time;
+	//long int		elapsed_millisec;
+	long int		start_time;
+	(void) philo;
+
+	start_time = current_time();
+	while (current_time() - start_time < milliseconds)
+		usleep(100);
+		// gettimeofday(&end_time, NULL);
+		// elapsed_millisec = ((end_time.tv_sec - start_time.tv_sec) * 1000)
+		// 	+ ((end_time.tv_usec - start_time.tv_usec) / 1000);
+		// if (elapsed_millisec >= milliseconds)
+		// 	break ;
+}
+
+void	output_message(t_philo *philo, t_activity activity)
+{
+	long int	curr_time;
+	
+	curr_time = current_time();
+//	pthread_mutex_lock(&philo->data->printing);
+	if (activity == EAT)
+		printf("(%ld) Philo %d is eating\n", curr_time, philo->pos);
+	else if (activity == SLEEP)
+		printf("(%ld) Philo %d is sleeping\n", curr_time, philo->pos);
+	else if (activity == THINK)
+		printf("(%ld) Philo %d is thinking\n", curr_time, philo->pos);
+	else if (activity == FORK_R)
+		printf("(%ld) Philo %d has taken a fork (%d)\n", curr_time,
+			philo->pos, philo->right_fork + 1);
+	else if (activity == FORK_L)
+		printf("(%ld) Philo %d has taken a fork (%d)\n", curr_time,
+			philo->pos, philo->left_fork + 1);
+	else if (activity == RLS_FORK_L)
+		printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
+			philo->pos, philo->left_fork + 1);
+	else if (activity == RLS_FORK_R)
+		printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
+			philo->pos, philo->right_fork + 1);
+	else if (activity == DEAD)
+		printf("(%ld) Philo %d died\n", curr_time, philo->pos);
+//	pthread_mutex_unlock(&philo->data->printing);
 }
