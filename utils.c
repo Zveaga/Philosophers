@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/13 19:56:06 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/14 17:02:16 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,12 @@ long int	current_time(void)
 
 void	own_usleep(t_philo *philo, long milliseconds)
 {
-	// struct timeval	start_time;
-	// struct timeval	end_time;
-	//long int		elapsed_millisec;
 	long int		start_time;
 	(void) philo;
 
 	start_time = current_time();
 	while (current_time() - start_time < milliseconds)
 		usleep(100);
-		// gettimeofday(&end_time, NULL);
-		// elapsed_millisec = ((end_time.tv_sec - start_time.tv_sec) * 1000)
-		// 	+ ((end_time.tv_usec - start_time.tv_usec) / 1000);
-		// if (elapsed_millisec >= milliseconds)
-		// 	break ;
 }
 
 void	output_message(t_philo *philo, t_activity activity)
@@ -106,7 +98,7 @@ void	output_message(t_philo *philo, t_activity activity)
 	long int	curr_time;
 	
 	curr_time = current_time();
-//	pthread_mutex_lock(&philo->data->printing);
+	pthread_mutex_lock(&philo->data->printing);
 	if (activity == EAT)
 		printf("(%ld) Philo %d is eating\n", curr_time, philo->pos);
 	else if (activity == SLEEP)
@@ -127,5 +119,12 @@ void	output_message(t_philo *philo, t_activity activity)
 			philo->pos, philo->right_fork + 1);
 	else if (activity == DEAD)
 		printf("(%ld) Philo %d died\n", curr_time, philo->pos);
-//	pthread_mutex_unlock(&philo->data->printing);
+	pthread_mutex_unlock(&philo->data->printing);
+}
+
+void	update_time_last_meal(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->update_time);
+	philo->time_last_meal = current_time();
+	pthread_mutex_unlock(&philo->data->update_time);
 }
