@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/13 12:43:45 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/15 12:50:43 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ int	main( int argc, char **argv)
 {
 	t_data	*data;
 	
-	if (argc != 5)
+	if (argc != 5 && argc != 6)
 	{
-		raise_error("Program should have 4 arguments.");
+		raise_error("Program should only have 4 or 5 arguments.");
 		return (1);
 	}
 	data = malloc(sizeof(t_data));
 	if (!data)
 		raise_error("Failed to allocate memory for data struct");
 
-	if (initialize_data(data, argv) == 1)
+	if (initialize_data(data, argc, argv) == 1)
 	{
 		raise_error("Failed to initialize data struct");
 		return (1);

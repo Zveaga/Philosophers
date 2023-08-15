@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/14 17:02:16 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/15 14:37:32 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,6 @@ int	ft_strlen(const char *s)
 		i++;
 	}
 	return (i);
-}
-
-int	check_digit(char *str)
-{
-	int	i;
-	
-	i = 0;
-	
-	while (str && str[i])
-	{
-		if (str[i] == '+' || str[i] == '-')
-			i++;
-		if (str[i] < '0' || str[i] > '9')
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	ft_atoi(const char *str)
@@ -100,16 +83,16 @@ void	output_message(t_philo *philo, t_activity activity)
 	curr_time = current_time();
 	pthread_mutex_lock(&philo->data->printing);
 	if (activity == EAT)
-		printf("(%ld) Philo %d is eating\n", curr_time, philo->pos);
+		printf(GREEN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
 	else if (activity == SLEEP)
-		printf("(%ld) Philo %d is sleeping\n", curr_time, philo->pos);
+		printf(RED"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
 	else if (activity == THINK)
-		printf("(%ld) Philo %d is thinking\n", curr_time, philo->pos);
+		printf(MAGENTA"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
 	else if (activity == FORK_R)
-		printf("(%ld) Philo %d has taken a fork (%d)\n", curr_time,
+		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
 			philo->pos, philo->right_fork + 1);
 	else if (activity == FORK_L)
-		printf("(%ld) Philo %d has taken a fork (%d)\n", curr_time,
+		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
 			philo->pos, philo->left_fork + 1);
 	else if (activity == RLS_FORK_L)
 		printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,

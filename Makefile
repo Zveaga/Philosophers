@@ -4,6 +4,7 @@ SRC = \
 main.c \
 utils.c \
 initialize_philo.c \
+validate_input.c \
 
 OBJ = $(SRC:.c=.o)
 

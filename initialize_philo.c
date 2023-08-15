@@ -6,89 +6,46 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/14 18:51:01 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/15 14:57:45 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philo.h"	
 
-int	check_args(char **argv)
+
+static int	take_forks(t_philo *philo)
 {
-	if (check_digit(argv[1]) == 1
-		|| check_digit(argv[2]) == 1
-		|| check_digit(argv[3]) == 1
-		|| check_digit(argv[4]) == 1)
-	{
+	if (pthread_mutex_lock(&philo->data->forks[philo->right_fork]) != 0)
 		return (1);
-	}
+	output_message(philo, FORK_R);
+	if (pthread_mutex_lock(&philo->data->forks[philo->left_fork]) != 0)
+		return (1);
+	output_message(philo, FORK_L);
 	return (0);
 }
 
-int	check_positive_argv(char **argv)
+static int	return_forks(t_philo *philo)
 {
-	if (argv[1][0] == '-'
-		|| argv[2][0] == '-'
-		|| argv[3][0] == '-'
-		|| argv[4][0] == '-')
-	{
+	if (pthread_mutex_unlock(&philo->data->forks[philo->right_fork]) != 0)
 		return (1);
-	}
+	output_message(philo, RLS_FORK_L);
+	if (pthread_mutex_unlock(&philo->data->forks[philo->left_fork]) != 0)
+		return (1);
+	output_message(philo, RLS_FORK_R);
 	return (0);
 }
 
-int	check_int_overflow(char **argv)
+static void	eat(t_philo *philo)
 {
-	if (ft_atoi(argv[1]) == -1
-		|| ft_atoi(argv[2]) == -1
-		|| ft_atoi(argv[3]) == -1
-		|| ft_atoi(argv[4]) == -1)
-	{
-		return (1);
-	}
-	return (0);
-}
-
-int	check_data(char **argv)
-{
-	if (check_args(argv) == 1)
-	{
-		printf("Program arguments should only contain digits\n");
-		return(1);
-	}
-	if (check_positive_argv(argv) == 1)
-	{
-		printf("Program arguments should be positive\n");
-		return(1);
-	}
-	if (check_int_overflow(argv) == 1)
-	{
-		printf("Program arg exceeds MAX_INT\n");
-		return(1);
-	}
-	return (0);
-}
-
-int	initialize_data(t_data *data, char **argv)
-{
-	if (check_data(argv) == 1)
-	{
-		printf("Invalid arguments.\n");
-		return (1);
-	}
-	data->nr_philo = ft_atoi(argv[1]);
-	data->die_time = ft_atoi(argv[2]);
-	data->eat_time = ft_atoi(argv[3]);
-	data->sleep_time = ft_atoi(argv[4]);
-	data->start_time = 0;
-	//data->counter = 1;
-	return (0);
+	update_time_last_meal(philo);
+	//printf("EATING--->> %ld \n\n", philo->time_last_meal);
+	output_message(philo, EAT);
+	philo->eat_rounds++;
+	own_usleep(philo, philo->data->eat_time);
 }
 
 bool	check_death(t_philo *philo)
 {
-	long int	curr_time;
-
-	curr_time = current_time();
 	if (philo->eat_rounds != 0)
 	{
 		if (current_time() - philo->time_last_meal >= philo->data->die_time)
@@ -96,6 +53,8 @@ bool	check_death(t_philo *philo)
 	}
 	else if (philo->eat_rounds == 0)
 	{
+		//printf("\nStart time:   %ld \n", philo->data->start_time);
+		//printf("Current time: %ld \n", current_time());
 		if (current_time() - philo->data->start_time >= philo->data->die_time)
 			return (true);
 		
@@ -113,38 +72,29 @@ static void	*routine(void *philo_pt)
 
 	while (philo->alive == true)
 	{	
-		//pthread_mutex_lock(&philo->data->eating);
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-		output_message(philo, FORK_R);
-		
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-		output_message(philo, FORK_L);
-		
+		pthread_mutex_lock(&philo->data->eating);
 		if (check_death(philo) == true)
 		{
-			printf("\n(%ld) Philo %d died!\n\n", current_time(), philo->pos);
+			printf(YELLOW"\n(%ld) Philo %d died!\n"RESET, current_time(), philo->pos);
+			//printf("\nCurrent time:   %ld \n", current_time());
+			//printf("Start time:     %ld \n", philo->data->start_time);
+			//printf("Last meal time: %ld \n\n", philo->time_last_meal);
+			//sleep(20);
 			exit(1);
 		}
-		update_time_last_meal(philo);
-		output_message(philo, EAT);
-		philo->eat_rounds++;
-		own_usleep(philo, philo->data->eat_time);
-		
-		pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
-		output_message(philo, RLS_FORK_L);
-		
-		pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
-		output_message(philo, RLS_FORK_R);
-		
+		if (take_forks(philo) == 1)
+			return (NULL);
+		pthread_mutex_unlock(&philo->data->eating);
+		eat(philo);
+		if (return_forks(philo) == 1)
+			return (NULL); 
 		output_message(philo, SLEEP);
 		own_usleep(philo, philo->data->sleep_time);
-		
 		output_message(philo, THINK);
-				
-		//pthread_mutex_unlock(&philo->data->eating);
 	}
 	return (NULL);
 }
+
 
 
 // static void	watcher_thread(void *data_pt)
@@ -166,10 +116,6 @@ int	initialize_philo_data(t_data *data)
 {
 	int			i;
 	
-	data->start_time = current_time();
-	printf("Start time: %ld \n\n", data->start_time);
-	// if (data->start_time == -1)
-	// 	return (1);
 	data->philos = malloc(data->nr_philo * sizeof(t_philo));
 	if (data->philos == NULL)
 		return (1);
@@ -199,6 +145,8 @@ int	create_philos(t_data *data)
 	int	i;
 
 	i = 0;
+	data->start_time = current_time();
+	printf("Start time: %ld \n\n", data->start_time);
 	while (i < data->nr_philo)
 	{
 		if (pthread_create(&data->philos[i].thread_id, NULL, &routine,
@@ -215,6 +163,24 @@ int	create_philos(t_data *data)
 	}
 	return (0);
 	
+}
+
+int	initialize_data(t_data *data, int argc, char **argv)
+{
+	if (check_data(argc, argv) == 1)
+	{
+		printf("Invalid arguments.\n");
+		return (1);
+	}
+	data->nr_philo = ft_atoi(argv[1]);
+	data->die_time = ft_atoi(argv[2]);
+	data->eat_time = ft_atoi(argv[3]);
+	data->sleep_time = ft_atoi(argv[4]);
+	if (argc == 6)
+		data->required_rounds = ft_atoi(argv[5]);
+	data->start_time = 0;
+	//data->counter = 1;
+	return (0);
 }
 
 int	initialize_forks(t_data *data)
