@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/15 14:57:45 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/16 11:18:13 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ bool	check_death(t_philo *philo)
 	return (false);
 }
 
+
+// void	free_data(t_philo *philo)
+// {
+	
+// }
+
 static void	*routine(void *philo_pt)
 {
 	t_philo		*philo;
@@ -69,22 +75,23 @@ static void	*routine(void *philo_pt)
 	philo = (t_philo *) philo_pt;
 	if (philo->pos % 2 == 0)
 		own_usleep(philo, 10);
-
-	while (philo->alive == true)
+	while (philo->data->philo_alive == true)
 	{	
-		pthread_mutex_lock(&philo->data->eating);
+		pthread_mutex_lock(&philo->data->checking);
 		if (check_death(philo) == true)
 		{
 			printf(YELLOW"\n(%ld) Philo %d died!\n"RESET, current_time(), philo->pos);
+			//philo->data->philo_alive = false;
+			//pthread_mutex_unlock(&philo->data->checking);
+			//break ;
 			//printf("\nCurrent time:   %ld \n", current_time());
 			//printf("Start time:     %ld \n", philo->data->start_time);
 			//printf("Last meal time: %ld \n\n", philo->time_last_meal);
-			//sleep(20);
 			exit(1);
 		}
+		pthread_mutex_unlock(&philo->data->checking);
 		if (take_forks(philo) == 1)
 			return (NULL);
-		pthread_mutex_unlock(&philo->data->eating);
 		eat(philo);
 		if (return_forks(philo) == 1)
 			return (NULL); 
@@ -106,7 +113,11 @@ static void	*routine(void *philo_pt)
 // 	data = (t_data *) data_pt;
 // 	while (1)
 // 	{
-		
+// 		if (data->philo_alive == false)
+// 		{
+			
+// 			break ;
+// 		}
 // 		i++;
 // 	}
 // 	return (NULL);
@@ -172,6 +183,7 @@ int	initialize_data(t_data *data, int argc, char **argv)
 		printf("Invalid arguments.\n");
 		return (1);
 	}
+	data->philo_alive = true;
 	data->nr_philo = ft_atoi(argv[1]);
 	data->die_time = ft_atoi(argv[2]);
 	data->eat_time = ft_atoi(argv[3]);
@@ -187,11 +199,13 @@ int	initialize_forks(t_data *data)
 {
 	int	i;
 	
-	if (pthread_mutex_init(&data->eating, NULL) != 0)
+	if (pthread_mutex_init(&data->checking, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&data->printing, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&data->update_time, NULL) != 0)
+		return (1);
+	if (pthread_mutex_init(&data->stop, NULL) != 0)
 		return (1);
 	data->forks = malloc(data->nr_philo * sizeof(pthread_mutex_t));
 	if (data->forks == NULL)
@@ -217,7 +231,7 @@ int	destroy_mutex(t_data *data)
 			return (1);
 		i++;
 	}
-	if (pthread_mutex_destroy(&data->eating) != 0)
+	if (pthread_mutex_destroy(&data->checking) != 0)
 			return (1);
 	return (0);
 }

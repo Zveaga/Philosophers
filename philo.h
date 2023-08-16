@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/15 14:52:20 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/15 17:29:59 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef	struct			s_philo
 typedef	struct			s_data
 {					
 	//int					counter;
+	bool				philo_alive;
 	int					nr_philo;
 	int					die_time;
 	int					eat_time;
@@ -73,9 +74,10 @@ typedef	struct			s_data
 	long int			start_time;
 	t_philo				*philos;
 	pthread_mutex_t 	*forks;
-	pthread_mutex_t		eating;
+	pthread_mutex_t		checking;
 	pthread_mutex_t		update_time;
 	pthread_mutex_t		printing;
+	pthread_mutex_t		stop;
 }						t_data;
 
 

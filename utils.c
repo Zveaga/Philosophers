@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/15 14:37:32 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/15 15:11:07 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_atoi(const char *str)
 	}
 	return (number);
 }
-
 
 long int	current_time(void)
 {
