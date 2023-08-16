@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/16 11:18:13 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/16 18:48:03 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,28 @@ static int	take_forks(t_philo *philo)
 
 static int	return_forks(t_philo *philo)
 {
-	if (pthread_mutex_unlock(&philo->data->forks[philo->right_fork]) != 0)
-		return (1);
-	output_message(philo, RLS_FORK_L);
 	if (pthread_mutex_unlock(&philo->data->forks[philo->left_fork]) != 0)
 		return (1);
+	output_message(philo, RLS_FORK_L);
+	if (pthread_mutex_unlock(&philo->data->forks[philo->right_fork]) != 0)
+		return (1);
 	output_message(philo, RLS_FORK_R);
+	
 	return (0);
 }
 
 static void	eat(t_philo *philo)
 {
 	update_time_last_meal(philo);
-	//printf("EATING--->> %ld \n\n", philo->time_last_meal);
+	pthread_mutex_lock(&philo->data->stop);
 	output_message(philo, EAT);
 	philo->eat_rounds++;
+	if (philo->eat_rounds == philo->data->required_rounds)
+	{
+		philo->data->completed_rounds++;	
+		philo->fully_ate = true;
+	}
+	pthread_mutex_unlock(&philo->data->stop);
 	own_usleep(philo, philo->data->eat_time);
 }
 
@@ -53,11 +60,8 @@ bool	check_death(t_philo *philo)
 	}
 	else if (philo->eat_rounds == 0)
 	{
-		//printf("\nStart time:   %ld \n", philo->data->start_time);
-		//printf("Current time: %ld \n", current_time());
 		if (current_time() - philo->data->start_time >= philo->data->die_time)
 			return (true);
-		
 	}
 	return (false);
 }
@@ -75,19 +79,15 @@ static void	*routine(void *philo_pt)
 	philo = (t_philo *) philo_pt;
 	if (philo->pos % 2 == 0)
 		own_usleep(philo, 10);
-	while (philo->data->philo_alive == true)
+	while ((philo->fully_ate == false) && (philo->data->philo_alive == true))
 	{	
 		pthread_mutex_lock(&philo->data->checking);
 		if (check_death(philo) == true)
 		{
-			printf(YELLOW"\n(%ld) Philo %d died!\n"RESET, current_time(), philo->pos);
-			//philo->data->philo_alive = false;
-			//pthread_mutex_unlock(&philo->data->checking);
-			//break ;
-			//printf("\nCurrent time:   %ld \n", current_time());
-			//printf("Start time:     %ld \n", philo->data->start_time);
-			//printf("Last meal time: %ld \n\n", philo->time_last_meal);
-			exit(1);
+			philo->data->philo_alive = false;
+			printf(YELLOW"\n(%ld) Philo %d died!\n"RESET,
+				current_time(), philo->pos);
+			pthread_mutex_unlock(&philo->data->checking);
 		}
 		pthread_mutex_unlock(&philo->data->checking);
 		if (take_forks(philo) == 1)
@@ -134,7 +134,7 @@ int	initialize_philo_data(t_data *data)
 	while (i < data->nr_philo)
 	{
 		data->philos[i].is_eating = false;
-		data->philos[i].alive = true;
+		data->philos[i].fully_ate = false;
 		data->philos[i].eat_rounds = 0;
 		data->philos[i].pos = i + 1;
 		data->philos[i].ms = 0;
@@ -188,8 +188,12 @@ int	initialize_data(t_data *data, int argc, char **argv)
 	data->die_time = ft_atoi(argv[2]);
 	data->eat_time = ft_atoi(argv[3]);
 	data->sleep_time = ft_atoi(argv[4]);
+	data->completed_rounds = 0;
 	if (argc == 6)
 		data->required_rounds = ft_atoi(argv[5]);
+	else
+		data->required_rounds = -1;
+	printf("----->%d\n\n", data->required_rounds);
 	data->start_time = 0;
 	//data->counter = 1;
 	return (0);

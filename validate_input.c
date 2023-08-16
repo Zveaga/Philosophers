@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/15 12:20:59 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/15 12:53:02 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/16 13:08:14 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_int_overflow(int argc, char **argv)
 	}
 	if (argc == 6)
 	{
-		if (ft_atoi(argv[5]) == 1)
+		if (ft_atoi(argv[5]) == -1)
 			return (1);
 	}
 	return (0);

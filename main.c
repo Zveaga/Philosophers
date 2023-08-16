@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/15 12:50:43 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/16 18:46:50 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	main( int argc, char **argv)
 		raise_error("Failed to create philos");
 		return (1);
 	}
+	if (data->completed_rounds == data->nr_philo)
+		printf("\n----ALL PHILOSOPHERS ATE ENOUGH----");
 	
 	//print_forks(data);
 	// printf("Nr philo: %d\n", data->nr_philo);
@@ -69,7 +71,6 @@ int	main( int argc, char **argv)
 		printf("Failed to destroy mutex\n");		
 		return (1);
 	}
-
 	
 	return (0);
 }

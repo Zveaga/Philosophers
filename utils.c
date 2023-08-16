@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/15 15:11:07 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/16 18:19:34 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ long int	current_time(void)
 void	own_usleep(t_philo *philo, long milliseconds)
 {
 	long int		start_time;
-	(void) philo;
+	(void)philo;
 
+	// if (philo->fully_ate == true)
+	// 	return ;
 	start_time = current_time();
-	while (current_time() - start_time < milliseconds)
+	while ((current_time() - start_time) < milliseconds)
 		usleep(100);
 }
 
@@ -81,26 +83,29 @@ void	output_message(t_philo *philo, t_activity activity)
 	
 	curr_time = current_time();
 	pthread_mutex_lock(&philo->data->printing);
-	if (activity == EAT)
-		printf(GREEN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
-	else if (activity == SLEEP)
-		printf(RED"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
-	else if (activity == THINK)
-		printf(MAGENTA"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
-	else if (activity == FORK_R)
-		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
-			philo->pos, philo->right_fork + 1);
-	else if (activity == FORK_L)
-		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
-			philo->pos, philo->left_fork + 1);
-	else if (activity == RLS_FORK_L)
-		printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
-			philo->pos, philo->left_fork + 1);
-	else if (activity == RLS_FORK_R)
-		printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
-			philo->pos, philo->right_fork + 1);
-	else if (activity == DEAD)
-		printf("(%ld) Philo %d died\n", curr_time, philo->pos);
+	if ((philo->data->philo_alive == true) && (philo->fully_ate == false))
+	{
+		if (activity == EAT)
+			printf(GREEN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
+		else if (activity == SLEEP)
+			printf(RED"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
+		else if (activity == THINK)
+			printf(MAGENTA"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
+		else if (activity == FORK_R)
+			printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
+				philo->pos, philo->right_fork + 1);
+		else if (activity == FORK_L)
+			printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
+				philo->pos, philo->left_fork + 1);
+		else if (activity == RLS_FORK_L)
+			printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
+				philo->pos, philo->left_fork + 1);
+		else if (activity == RLS_FORK_R)
+			printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
+				philo->pos, philo->right_fork + 1);
+		else if (activity == DEAD)
+			printf("(%ld) Philo %d died\n", curr_time, philo->pos);
+	}
 	pthread_mutex_unlock(&philo->data->printing);
 }
 

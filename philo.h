@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/15 17:29:59 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/16 17:51:43 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef enum			s_activity
 typedef	struct			s_philo
 {
 	bool				is_eating;
-	bool				alive;
+	bool				fully_ate;
 	int					eat_rounds;
 	int					pos;
 	int					ms;
@@ -71,6 +71,7 @@ typedef	struct			s_data
 	int					eat_time;
 	int					sleep_time;
 	int					required_rounds;
+	int					completed_rounds;
 	long int			start_time;
 	t_philo				*philos;
 	pthread_mutex_t 	*forks;
