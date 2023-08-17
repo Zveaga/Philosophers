@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/16 20:18:43 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/17 19:23:11 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,29 @@ static void	eat(t_philo *philo)
 		philo->fully_ate = true;
 	}
 	pthread_mutex_unlock(&philo->data->stop);
+	//usleep(philo->data->eat_time * 1000);
 	own_usleep(philo, philo->data->eat_time);
 }
 
 bool	is_dead(t_philo *philo)
 {
-	if (philo->eat_rounds != 0)
-	{
-		if (current_time() - philo->time_last_meal >= philo->data->die_time)
-			return (true);
-	}
-	else if (philo->eat_rounds == 0)
-	{
-		if (current_time() - philo->data->start_time >= philo->data->die_time)
-			return (true);
-	}
+	struct timeval	current;
+	
+	gettimeofday(&current, NULL);
+	// if (philo->eat_rounds != 0)
+	// {
+	// 	if (current_time() - philo->time_last_meal >= philo->data->die_time)
+	// 		return (true);
+	// }
+	// if (philo->eat_rounds == 0)
+	// {
+	// 	if (current_time() - philo->data->start_time >= philo->data->die_time)
+	// 		return (true);
+	// }
+	if (current_time() - philo->time_last_meal >= philo->data->die_time)
+		return (true);
+	// if (delta_time(philo->time_last_meal, current) >= (int32_t) philo->data->die_time)
+	// 	return (true);
 	return (false);
 }
 
@@ -90,24 +98,29 @@ static void	*routine(void *philo_pt)
 	philo = (t_philo *) philo_pt;
 	if (philo->pos % 2 == 0)
 		own_usleep(philo, 10);
+	update_time_last_meal(philo);
+	//printf ("Begining---> %ld\n", philo->time_last_meal);
 	while ((philo->fully_ate == false) && (philo->data->philo_alive == true))
 	{	
+
 		pthread_mutex_lock(&philo->data->checking);
 		check_if_dead(philo);
 		pthread_mutex_unlock(&philo->data->checking);
 		if (take_forks(philo) == 1)
 			return (NULL);
+
 		eat(philo);
+
 		if (return_forks(philo) == 1)
 			return (NULL); 
+
 		output_message(philo, SLEEP);
+		//usleep(philo->data->sleep_time * 1000);
 		own_usleep(philo, philo->data->sleep_time);
 		output_message(philo, THINK);
 	}
 	return (NULL);
 }
-
-
 
 // static void	watcher_thread(void *data_pt)
 // {
@@ -116,13 +129,9 @@ static void	*routine(void *philo_pt)
 
 // 	i = 0;
 // 	data = (t_data *) data_pt;
-// 	while (1)
+// 	while (data->philo_alive == alive)
 // 	{
-// 		if (data->philo_alive == false)
-// 		{
-			
-// 			break ;
-// 		}
+// 		if (data->philos[i].)
 // 		i++;
 // 	}
 // 	return (NULL);
@@ -143,7 +152,7 @@ int	initialize_philo_data(t_data *data)
 		data->philos[i].eat_rounds = 0;
 		data->philos[i].pos = i + 1;
 		data->philos[i].ms = 0;
-		data->philos[i].time_last_meal = 0;
+		//data->philos[i].time_last_meal = 0;
 		data->philos[i].data = data;
 		data->philos[i].left_fork = i;
 		if (i == 0)
@@ -241,6 +250,12 @@ int	destroy_mutex(t_data *data)
 		i++;
 	}
 	if (pthread_mutex_destroy(&data->checking) != 0)
+			return (1);
+	if (pthread_mutex_destroy(&data->printing) != 0)
+			return (1);
+	if (pthread_mutex_destroy(&data->update_time) != 0)
+			return (1);
+	if (pthread_mutex_destroy(&data->stop) != 0)
 			return (1);
 	return (0);
 }

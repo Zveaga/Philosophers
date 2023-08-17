@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/16 20:33:52 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/17 14:23:58 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main( int argc, char **argv)
 	// printf("Die time: %d\n", data->nr_philo);
 	// printf("Eat_time: %d\n", data->nr_philo);
 	// printf("Sleep_time: %d\n", data->nr_philo);
+	
 	if (destroy_mutex(data) == 1)
 	{
 		printf("Failed to destroy mutex\n");		

@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/16 17:51:43 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/17 19:23:50 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ typedef	struct			s_philo
 {
 	bool				is_eating;
 	bool				fully_ate;
+	//bool				is_alive;
 	int					eat_rounds;
 	int					pos;
 	int					ms;
 	int					left_fork;
 	int					right_fork;
-	long int			time_last_meal;
+	//struct timeval	time_last_meal;
+	long				time_last_meal;
 	pthread_t			thread_id;
 	struct s_data		*data;
 
@@ -103,5 +105,8 @@ int					create_philos(t_data *data);
 
 //-------FREE-------//
 int					destroy_mutex(t_data *data);
+
+int32_t	delta_time(struct timeval t1, struct timeval t2);
+
 
 #endif

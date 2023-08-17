@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/16 20:34:42 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/17 19:25:14 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,51 @@ void	own_usleep(t_philo *philo, long milliseconds)
 	// 	return ;
 	start_time = current_time();
 	while ((current_time() - start_time) < milliseconds)
-		usleep(100);
+	{
+		//if (philo->)
+		usleep(200);
+	}
 }
+
+// int32_t	delta_time(struct timeval t1, struct timeval t2)
+// {
+// 	struct timeval	delta;
+// 	int32_t			timestamp;
+
+// 	while ((t2.tv_usec < t1.tv_usec) && (t2.tv_sec > t1.tv_sec))
+// 	{
+// 		t2.tv_usec += 1000000;
+// 		t2.tv_sec -= 1;
+// 	}
+// 	delta.tv_sec = t2.tv_sec - t1.tv_sec;
+// 	delta.tv_usec = t2.tv_usec - t1.tv_usec;
+// 	timestamp = delta.tv_sec * 1000000 + delta.tv_usec;
+// 	return (timestamp / 1000);
+// }
+
+// void	own_usleep(t_philo *phil, long milli_secs)
+// {
+// 	struct timeval	start;
+// 	struct timeval	current;
+// 	//(void)phil;
+
+// 	gettimeofday(&start, NULL);
+// 	gettimeofday(&current, NULL);
+// 	while (delta_time(start, current) < milli_secs)
+// 	{
+// 		if (phil->data->philo_alive == false)
+// 			break ;
+// 		usleep(50);
+// 		gettimeofday(&current, NULL);
+// 	}
+// }
 
 void	output_message(t_philo *philo, t_activity activity)
 {
 	long int	curr_time;
 	
-	pthread_mutex_lock(&philo->data->printing);
 	curr_time = current_time();
+	pthread_mutex_lock(&philo->data->printing);
 	if ((philo->data->philo_alive == true) && (philo->fully_ate == false))
 	{
 		if (activity == EAT)
@@ -112,6 +148,7 @@ void	output_message(t_philo *philo, t_activity activity)
 void	update_time_last_meal(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->update_time);
+	//gettimeofday(&philo->time_last_meal, NULL);
 	philo->time_last_meal = current_time();
 	pthread_mutex_unlock(&philo->data->update_time);
 }
