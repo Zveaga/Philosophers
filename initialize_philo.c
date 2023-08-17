@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/16 18:48:03 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/16 20:18:43 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	eat(t_philo *philo)
 	own_usleep(philo, philo->data->eat_time);
 }
 
-bool	check_death(t_philo *philo)
+bool	is_dead(t_philo *philo)
 {
 	if (philo->eat_rounds != 0)
 	{
@@ -72,6 +72,17 @@ bool	check_death(t_philo *philo)
 	
 // }
 
+static void	check_if_dead(t_philo *philo)
+{
+	if (is_dead(philo) == true)
+	{
+		philo->data->philo_alive = false;
+		printf(YELLOW"\n(%ld) Philo %d died!\n"RESET,
+			current_time(), philo->pos);
+		pthread_mutex_unlock(&philo->data->checking);
+	}
+}
+
 static void	*routine(void *philo_pt)
 {
 	t_philo		*philo;
@@ -82,13 +93,7 @@ static void	*routine(void *philo_pt)
 	while ((philo->fully_ate == false) && (philo->data->philo_alive == true))
 	{	
 		pthread_mutex_lock(&philo->data->checking);
-		if (check_death(philo) == true)
-		{
-			philo->data->philo_alive = false;
-			printf(YELLOW"\n(%ld) Philo %d died!\n"RESET,
-				current_time(), philo->pos);
-			pthread_mutex_unlock(&philo->data->checking);
-		}
+		check_if_dead(philo);
 		pthread_mutex_unlock(&philo->data->checking);
 		if (take_forks(philo) == 1)
 			return (NULL);

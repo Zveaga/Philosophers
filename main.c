@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/16 18:46:50 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/16 20:33:52 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	main( int argc, char **argv)
 		raise_error("Failed to initialize forks");
 		return (1);
 	}
+	
 	if (initialize_philo_data(data) == 1)
 	{
 		raise_error("Failed to initialize philo");
@@ -59,7 +60,7 @@ int	main( int argc, char **argv)
 		return (1);
 	}
 	if (data->completed_rounds == data->nr_philo)
-		printf("\n----ALL PHILOSOPHERS ATE ENOUGH----");
+		printf("\n----ALL PHILOSOPHERS ATE ENOUGH FOOD----\n");
 	
 	//print_forks(data);
 	// printf("Nr philo: %d\n", data->nr_philo);
