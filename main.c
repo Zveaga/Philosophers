@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/17 14:23:58 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/18 15:01:56 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	main( int argc, char **argv)
 		raise_error("Failed to create philos");
 		return (1);
 	}
-	if (data->completed_rounds == data->nr_philo)
-		printf("\n----ALL PHILOSOPHERS ATE ENOUGH FOOD----\n");
+	// if (data->completed_rounds == data->nr_philo)
+	// 	printf("\n----ALL PHILOSOPHERS ATE ENOUGH FOOD----\n");
 	
 	//print_forks(data);
 	// printf("Nr philo: %d\n", data->nr_philo);

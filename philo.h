@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/17 20:44:38 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/18 13:09:43 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef	struct			s_philo
 {
 	bool				is_eating;
 	bool				fully_ate;
-	//bool				is_alive;
+	bool				is_alive;
 	int					eat_rounds;
 	int					pos;
 	int					ms;

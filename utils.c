@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/17 20:59:34 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/18 14:45:19 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	own_usleep(t_philo *philo, long milliseconds)
 	start_time = current_time();
 	while ((current_time() - start_time) < milliseconds)
 	{
-		//if (philo->)
+		// if (philo->is_alive == false)
+		// 	return ;
 		usleep(200);
 	}
 }
@@ -136,7 +137,7 @@ void	output_message(t_philo *philo, t_activity activity)
 	
 	curr_time = current_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->printing);
-	if ((philo->data->philo_alive == true) && (philo->fully_ate == false))
+	if ((philo->is_alive == true) && (philo->fully_ate == false))
 	{
 		if (activity == EAT)
 			printf(GREEN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
