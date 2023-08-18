@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/17 19:23:11 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/18 11:16:39 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	return_forks(t_philo *philo)
 	if (pthread_mutex_unlock(&philo->data->forks[philo->right_fork]) != 0)
 		return (1);
 	output_message(philo, RLS_FORK_R);
-	
 	return (0);
 }
 
@@ -48,13 +47,13 @@ static void	eat(t_philo *philo)
 		philo->fully_ate = true;
 	}
 	pthread_mutex_unlock(&philo->data->stop);
-	//usleep(philo->data->eat_time * 1000);
 	own_usleep(philo, philo->data->eat_time);
 }
 
 bool	is_dead(t_philo *philo)
 {
 	struct timeval	current;
+	
 	
 	gettimeofday(&current, NULL);
 	// if (philo->eat_rounds != 0)
@@ -67,6 +66,7 @@ bool	is_dead(t_philo *philo)
 	// 	if (current_time() - philo->data->start_time >= philo->data->die_time)
 	// 		return (true);
 	// }
+	
 	if (current_time() - philo->time_last_meal >= philo->data->die_time)
 		return (true);
 	// if (delta_time(philo->time_last_meal, current) >= (int32_t) philo->data->die_time)
@@ -86,7 +86,7 @@ static void	check_if_dead(t_philo *philo)
 	{
 		philo->data->philo_alive = false;
 		printf(YELLOW"\n(%ld) Philo %d died!\n"RESET,
-			current_time(), philo->pos);
+			current_time() - philo->data->start_time, philo->pos);
 		pthread_mutex_unlock(&philo->data->checking);
 	}
 }
@@ -115,7 +115,6 @@ static void	*routine(void *philo_pt)
 			return (NULL); 
 
 		output_message(philo, SLEEP);
-		//usleep(philo->data->sleep_time * 1000);
 		own_usleep(philo, philo->data->sleep_time);
 		output_message(philo, THINK);
 	}

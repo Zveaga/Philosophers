@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/17 19:25:14 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/17 20:59:34 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,23 @@ void	own_usleep(t_philo *philo, long milliseconds)
 	}
 }
 
+// void	own_usleep(t_philo *philo, long usec)
+// {
+// 	useconds_t		before;
+// 	useconds_t		after;
+// 	(void)philo;
+
+// 	before = current_time();
+// 	after = before;
+// 	while (after - before < usec)
+// 	{
+// 		if (usleep(usec) == -1)
+// 			return ;
+// 		after = current_time();
+// 	}
+// 	//return (0);
+// }
+
 // int32_t	delta_time(struct timeval t1, struct timeval t2)
 // {
 // 	struct timeval	delta;
@@ -117,7 +134,7 @@ void	output_message(t_philo *philo, t_activity activity)
 {
 	long int	curr_time;
 	
-	curr_time = current_time();
+	curr_time = current_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->printing);
 	if ((philo->data->philo_alive == true) && (philo->fully_ate == false))
 	{
