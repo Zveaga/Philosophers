@@ -6,11 +6,16 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/18 15:01:56 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/18 19:11:58 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philo.h"
+
+void	check(void)
+{
+	system("leaks -q philo");
+}
 
 void print_forks(t_data *data)
 {
@@ -26,6 +31,8 @@ void print_forks(t_data *data)
 
 int	main( int argc, char **argv)
 {
+	atexit(check);
+	
 	t_data	*data;
 	
 	if (argc != 5 && argc != 6)
@@ -67,13 +74,11 @@ int	main( int argc, char **argv)
 	// printf("Die time: %d\n", data->nr_philo);
 	// printf("Eat_time: %d\n", data->nr_philo);
 	// printf("Sleep_time: %d\n", data->nr_philo);
-	
-	if (destroy_mutex(data) == 1)
+	if (free_data(data) == 1)
 	{
-		printf("Failed to destroy mutex\n");		
+		printf("Failed to free memory\n");		
 		return (1);
 	}
-	
 	return (0);
 }
 

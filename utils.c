@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/18 15:25:13 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/18 18:38:50 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,16 @@ void	own_usleep(t_philo *philo, long milliseconds)
 
 	start_time = current_time();
 	while ((current_time() - start_time) < milliseconds)
+	{
+		//if (philo->)
 		usleep(200);
+	}
 }
 
 void	output_message(t_philo *philo, t_activity activity)
 {
 	long int	curr_time;
+	//(void)activity;
 	
 	curr_time = current_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->printing);
@@ -110,7 +114,6 @@ void	output_message(t_philo *philo, t_activity activity)
 void	update_time_last_meal(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->update_time);
-	//gettimeofday(&philo->time_last_meal, NULL);
 	philo->time_last_meal = current_time();
 	pthread_mutex_unlock(&philo->data->update_time);
 }

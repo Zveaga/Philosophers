@@ -8,7 +8,7 @@ validate_input.c \
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror  #-g -fsanitize=address
 
 CC = gcc
 
@@ -16,7 +16,6 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $^

@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/18 13:09:43 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/18 18:48:32 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ typedef	struct			s_data
 	long int			start_time;
 	t_philo				*philos;
 	pthread_mutex_t 	*forks;
-	pthread_mutex_t		checking;
+	pthread_mutex_t		check_rounds;
 	pthread_mutex_t		update_time;
 	pthread_mutex_t		printing;
-	pthread_mutex_t		stop;
+	//pthread_mutex_t		stop;
 }						t_data;
 
 
@@ -104,7 +104,7 @@ int					create_philos(t_data *data);
 
 
 //-------FREE-------//
-int					destroy_mutex(t_data *data);
+int					free_data(t_data *data);
 
 int32_t	delta_time(struct timeval t1, struct timeval t2);
 
