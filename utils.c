@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/18 14:45:19 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/18 15:25:13 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,66 +70,10 @@ void	own_usleep(t_philo *philo, long milliseconds)
 	long int		start_time;
 	(void)philo;
 
-	// if (philo->fully_ate == true)
-	// 	return ;
 	start_time = current_time();
 	while ((current_time() - start_time) < milliseconds)
-	{
-		// if (philo->is_alive == false)
-		// 	return ;
 		usleep(200);
-	}
 }
-
-// void	own_usleep(t_philo *philo, long usec)
-// {
-// 	useconds_t		before;
-// 	useconds_t		after;
-// 	(void)philo;
-
-// 	before = current_time();
-// 	after = before;
-// 	while (after - before < usec)
-// 	{
-// 		if (usleep(usec) == -1)
-// 			return ;
-// 		after = current_time();
-// 	}
-// 	//return (0);
-// }
-
-// int32_t	delta_time(struct timeval t1, struct timeval t2)
-// {
-// 	struct timeval	delta;
-// 	int32_t			timestamp;
-
-// 	while ((t2.tv_usec < t1.tv_usec) && (t2.tv_sec > t1.tv_sec))
-// 	{
-// 		t2.tv_usec += 1000000;
-// 		t2.tv_sec -= 1;
-// 	}
-// 	delta.tv_sec = t2.tv_sec - t1.tv_sec;
-// 	delta.tv_usec = t2.tv_usec - t1.tv_usec;
-// 	timestamp = delta.tv_sec * 1000000 + delta.tv_usec;
-// 	return (timestamp / 1000);
-// }
-
-// void	own_usleep(t_philo *phil, long milli_secs)
-// {
-// 	struct timeval	start;
-// 	struct timeval	current;
-// 	//(void)phil;
-
-// 	gettimeofday(&start, NULL);
-// 	gettimeofday(&current, NULL);
-// 	while (delta_time(start, current) < milli_secs)
-// 	{
-// 		if (phil->data->philo_alive == false)
-// 			break ;
-// 		usleep(50);
-// 		gettimeofday(&current, NULL);
-// 	}
-// }
 
 void	output_message(t_philo *philo, t_activity activity)
 {

@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/18 15:13:26 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/18 15:28:43 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,15 @@ bool	is_dead(t_philo *philo)
 	long int		current;
 	bool			status;
 	
-	
-	//gettimeofday(&current, NULL);
-	// if (philo->eat_rounds != 0)
-	// {
-	// 	if (current_time() - philo->time_last_meal >= philo->data->die_time)
-	// 		return (true);
-	// }
-	// if (philo->eat_rounds == 0)
-	// {
-	// 	if (current_time() - philo->data->start_time >= philo->data->die_time)
-	// 		return (true);
-	// }
 	current = current_time();
 	pthread_mutex_lock(&philo->data->update_time);
-	//printf("Current: %ld\n", current);
-	//printf("Time last meal: %ld\n", philo->time_last_meal);
 	if (current_time() - philo->time_last_meal >= philo->data->die_time)
 		status = true;
 	else
 		status = false;
 	pthread_mutex_unlock(&philo->data->update_time);
-
-	// if (delta_time(philo->time_last_meal, current) >= (int32_t) philo->data->die_time)
-	// 	return (true);
+	//printf("Current: %ld\n", current);
+	//printf("Time last meal: %ld\n", philo->time_last_meal);
 	return (status);
 }
 
@@ -182,8 +167,6 @@ static void	*watcher_thread(void *data_pt)
 		}
 		if (i == data->nr_philo)
 			i = 0;
-		//i = (i + 1) % data->nr_philo;
-		//i++;
 	}
 	i = 0;
 	while (i < data->nr_philo)
