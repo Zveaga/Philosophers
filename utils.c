@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/18 18:38:50 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/21 17:54:17 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	raise_error(char *message)
 {
-	
 	printf("%s\n", message);
 }
 
@@ -56,7 +55,7 @@ int	ft_atoi(const char *str)
 
 long int	current_time(void)
 {
-	struct	timeval		tv;
+	struct timeval		tv;
 	long int			current_time;	
 
 	if (gettimeofday(&tv, NULL) != 0)
@@ -68,25 +67,28 @@ long int	current_time(void)
 void	own_usleep(t_philo *philo, long milliseconds)
 {
 	long int		start_time;
+	
 	(void)philo;
-
 	start_time = current_time();
 	while ((current_time() - start_time) < milliseconds)
-	{
-		//if (philo->)
 		usleep(200);
-	}
 }
 
 void	output_message(t_philo *philo, t_activity activity)
 {
 	long int	curr_time;
-	//(void)activity;
-	
-	curr_time = current_time() - philo->data->start_time;
-	pthread_mutex_lock(&philo->data->printing);
-	if ((philo->is_alive == true) && (philo->fully_ate == false))
+
+	pthread_mutex_lock(&philo->data->check_status);
+	if (philo->is_alive == false)
 	{
+		pthread_mutex_unlock(&philo->data->check_status);
+		return ; 
+	}
+	pthread_mutex_unlock(&philo->data->check_status);
+	curr_time = current_time() - philo->data->start_time;
+	//pthread_mutex_lock(&philo->data->printing);
+	// if (philo->is_alive == true)
+	// {
 		if (activity == EAT)
 			printf(GREEN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
 		else if (activity == SLEEP)
@@ -107,13 +109,6 @@ void	output_message(t_philo *philo, t_activity activity)
 				philo->pos, philo->right_fork + 1);
 		else if (activity == DEAD)
 			printf("(%ld) Philo %d died\n", curr_time, philo->pos);
-	}
-	pthread_mutex_unlock(&philo->data->printing);
-}
-
-void	update_time_last_meal(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->update_time);
-	philo->time_last_meal = current_time();
-	pthread_mutex_unlock(&philo->data->update_time);
+	// }
+	//pthread_mutex_unlock(&philo->data->printing);
 }

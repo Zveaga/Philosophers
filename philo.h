@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/18 18:48:32 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/21 17:06:20 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 
 //-------STRUCTS-------//
-typedef enum			s_activity
+typedef enum s_activity
 {
 	EAT,
 	SLEEP,
@@ -45,9 +45,9 @@ typedef enum			s_activity
 	RLS_FORK_L,
 	RLS_FORK_R,
 	DEAD,
-}						t_activity;
+}			t_activity;
 						
-typedef	struct			s_philo
+typedef	struct s_philo
 {
 	bool				is_eating;
 	bool				fully_ate;
@@ -57,16 +57,14 @@ typedef	struct			s_philo
 	int					ms;
 	int					left_fork;
 	int					right_fork;
-	//struct timeval	time_last_meal;
 	long				time_last_meal;
 	pthread_t			thread_id;
 	struct s_data		*data;
 
 }						t_philo;
 
-typedef	struct			s_data
+typedef struct s_data
 {					
-	//int					counter;
 	bool				philo_alive;
 	int					nr_philo;
 	int					die_time;
@@ -76,13 +74,12 @@ typedef	struct			s_data
 	int					completed_rounds;
 	long int			start_time;
 	t_philo				*philos;
-	pthread_mutex_t 	*forks;
+	pthread_mutex_t		*forks;
 	pthread_mutex_t		check_rounds;
 	pthread_mutex_t		update_time;
 	pthread_mutex_t		printing;
-	//pthread_mutex_t		stop;
+	pthread_mutex_t		check_status;
 }						t_data;
-
 
 //-------UTILS-------//
 void				raise_error(char *message);
@@ -93,6 +90,8 @@ long int			current_time(void);
 void				own_usleep(t_philo *philo, long milliseconds);
 void				output_message(t_philo *philo, t_activity activity);
 void				update_time_last_meal(t_philo *philo);
+int					return_forks(t_philo *philo);
+
 
 
 //-------INITIALIZE-------//
@@ -106,7 +105,8 @@ int					create_philos(t_data *data);
 //-------FREE-------//
 int					free_data(t_data *data);
 
-int32_t	delta_time(struct timeval t1, struct timeval t2);
 
+void				*watcher_thread(void *data_pt);
+bool				is_dead(t_philo *philo);
 
 #endif

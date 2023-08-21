@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/15 12:20:59 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/16 13:08:14 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/08/21 10:54:26 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 int	check_digit(char *str)
 {
 	int	i;
-	
+
 	i = 0;
-	
 	while (str && str[i])
 	{
 		if (str[i] == '+' || str[i] == '-')
@@ -43,7 +42,6 @@ int	check_args(int argc, char **argv)
 		if (check_digit(argv[5]) == 1)
 			return (1);
 	}
-	
 	return (0);
 }
 
@@ -86,17 +84,17 @@ int	check_data(int argc, char **argv)
 	if (check_args(argc, argv) == 1)
 	{
 		printf("Program arguments should only contain digits\n");
-		return(1);
+		return (1);
 	}
 	if (check_positive_argv(argc, argv) == 1)
 	{
 		printf("Program arguments should be positive\n");
-		return(1);
+		return (1);
 	}
 	if (check_int_overflow(argc, argv) == 1)
 	{
 		printf("Program arg exceeds MAX_INT\n");
-		return(1);
+		return (1);
 	}
 	return (0);
 }

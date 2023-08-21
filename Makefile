@@ -3,12 +3,14 @@ NAME = philo
 SRC = \
 main.c \
 utils.c \
-initialize_philo.c \
+initialize.c \
 validate_input.c \
+watcher_thread.c \
+simulation.c \
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror  #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror  -g -fsanitize=thread
 
 CC = gcc
 
