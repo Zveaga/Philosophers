@@ -10,7 +10,7 @@ simulation.c \
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror  -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g -pthread
 
 CC = gcc
 

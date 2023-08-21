@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/21 17:54:17 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/21 20:07:23 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	output_message(t_philo *philo, t_activity activity)
 	}
 	pthread_mutex_unlock(&philo->data->check_status);
 	curr_time = current_time() - philo->data->start_time;
-	//pthread_mutex_lock(&philo->data->printing);
+	pthread_mutex_lock(&philo->data->printing);
 	// if (philo->is_alive == true)
 	// {
 		if (activity == EAT)
@@ -110,5 +110,5 @@ void	output_message(t_philo *philo, t_activity activity)
 		else if (activity == DEAD)
 			printf("(%ld) Philo %d died\n", curr_time, philo->pos);
 	// }
-	//pthread_mutex_unlock(&philo->data->printing);
+	pthread_mutex_unlock(&philo->data->printing);
 }

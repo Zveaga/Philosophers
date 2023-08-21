@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/21 17:20:02 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/21 21:45:58 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ bool	is_dead(t_philo *philo)
 
 	pthread_mutex_lock(&philo->data->update_time);
 	if (current_time() - philo->time_last_meal >= philo->data->die_time)
+	{
 		status = true;
+		// printf ("Actual time of death: %ld\n", current_time() - philo->data->start_time);
+	}
 	else
 		status = false;
 	pthread_mutex_unlock(&philo->data->update_time);
@@ -44,6 +47,11 @@ int	initialize_philo_data(t_data *data)
 		data->philos[i].time_last_meal = 0;
 		data->philos[i].data = data;
 		data->philos[i].left_fork = i;
+		// if (data->nr_philo == 1)
+		// {
+		// 	//data->philos[i].right_fork = i;
+		// 	break ;
+		// }
 		if (i == 0)
 			data->philos[i].right_fork = data->nr_philo - 1;
 		else
@@ -70,7 +78,6 @@ int	initialize_data(t_data *data, int argc, char **argv)
 		data->required_rounds = ft_atoi(argv[5]);
 	else
 		data->required_rounds = -1;
-	printf("----->%d\n\n", data->required_rounds);
 	return (0);
 }
 
@@ -114,7 +121,6 @@ int	free_data(t_data *data)
 				return (1);
 			i++;
 		}
-		//usleep(500);
 		free(data->philos);
 	}
 	if (pthread_mutex_destroy(&data->check_rounds) != 0)

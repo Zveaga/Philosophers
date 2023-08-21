@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:08:47 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/21 17:50:29 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/21 21:37:33 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	*watcher_thread(void *data_pt)
 		pthread_mutex_unlock(&data->check_status);
 		i++;
 	}
-	//free(data);
 	return (NULL);
 }
 

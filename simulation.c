@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/21 17:58:50 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/21 21:38:20 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	take_forks(t_philo *philo)
 	if (pthread_mutex_lock(&philo->data->forks[philo->right_fork]) != 0)
 		return (1);
 	output_message(philo, FORK_R);
+	if (philo->data->nr_philo == 1)
+		return (0);
 	if (pthread_mutex_lock(&philo->data->forks[philo->left_fork]) != 0)
 		return (1);
 	output_message(philo, FORK_L);
@@ -68,6 +70,11 @@ static void	*routine(void *philo_pt)
 		pthread_mutex_unlock(&philo->data->check_status);
 		if (take_forks(philo) == 1)
 			return (NULL);
+		if (philo->data->nr_philo == 1)
+		{
+			pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
+			return (NULL);
+		}
 		eat(philo);
 		if (return_forks(philo) == 1)
 			return (NULL);
