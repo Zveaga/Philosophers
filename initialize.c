@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/21 21:45:58 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/21 22:43:40 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	initialize_philo_data(t_data *data)
 	int			i;
 
 	data->philos = malloc(data->nr_philo * sizeof(t_philo));
+	printf("---Size of t_philo---: %lu\n\n",data->nr_philo * sizeof(t_philo));
 	if (data->philos == NULL)
 		return (1);
 	i = 0;
@@ -94,6 +95,8 @@ int	initialize_forks(t_data *data)
 	if (pthread_mutex_init(&data->check_status, NULL) != 0)
 		return (1);
 	data->forks = malloc(data->nr_philo * sizeof(pthread_mutex_t));
+	printf("---Size of forks---:  %lu\n", data->nr_philo * sizeof(pthread_mutex_t));
+	printf("---Size of mutexes---: %lu\n", data->nr_philo * sizeof(pthread_mutex_t) + 256);
 	if (data->forks == NULL)
 		return (1);
 	i = 0;
@@ -113,6 +116,18 @@ int	free_data(t_data *data)
 	i = 0;
 	if (data == NULL)
 		return (0);
+	pthread_mutex_destroy(&data->check_rounds);
+	pthread_mutex_destroy(&data->update_time);
+	pthread_mutex_destroy(&data->printing);
+	pthread_mutex_destroy(&data->check_status);
+	// if (pthread_mutex_destroy(&data->check_rounds) != 0)
+	// 	return (1);
+	// if (pthread_mutex_destroy(&data->update_time) != 0)
+	// 	return (1);
+	// if (pthread_mutex_destroy(&data->printing) != 0)
+	// 	return (1);
+	// if (pthread_mutex_destroy(&data->check_status) != 0)
+	// 	return (1);
 	if (data->philos != NULL)
 	{
 		while (i < data->nr_philo)
@@ -123,14 +138,6 @@ int	free_data(t_data *data)
 		}
 		free(data->philos);
 	}
-	if (pthread_mutex_destroy(&data->check_rounds) != 0)
-		return (1);
-	if (pthread_mutex_destroy(&data->update_time) != 0)
-		return (1);
-	if (pthread_mutex_destroy(&data->printing) != 0)
-		return (1);
-	if (pthread_mutex_destroy(&data->check_status) != 0)
-		return (1);
 	free(data);
 	return (0);
 }

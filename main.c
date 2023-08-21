@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/21 21:30:01 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/21 22:52:37 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check(void)
 {
-	system("leaks philo");
+	system("leaks -q philo");
 }
 
 void	print_forks(t_data *data)
@@ -39,6 +39,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	data = malloc(sizeof(t_data));
+	printf("\n---Size of t_data---:  %lu\n", sizeof(t_data));
 	if (!data)
 		raise_error("Failed to allocate memory for data struct");
 	if (initialize_data(data, argc, argv) == 1)
