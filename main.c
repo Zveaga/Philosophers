@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/23 20:47:52 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/23 20:48:52 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_forks(t_data *data)
 	i = 0;
 	while (i < data->nr_philo)
 	{
-		printf("Philo %d: lf %d and rf %d\n", i + 1 , data->philos[i].left_fork + 1, data->philos[i].right_fork + 1);
+		printf ("Philo %d: lf %d and rf %d\n", i + 1 , data->philos[i].left_fork + 1, data->philos[i].right_fork + 1);
 		i++;
 	}
 }
