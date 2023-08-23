@@ -2,7 +2,8 @@ NAME = philo
 
 SRC = \
 main.c \
-utils.c \
+utils_1.c \
+utils_2.c \
 initialize.c \
 validate_input.c \
 watcher_thread.c \
@@ -10,7 +11,7 @@ simulation.c \
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g -pthread
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g -pthread
 
 CC = gcc
 

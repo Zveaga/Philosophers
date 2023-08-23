@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/21 17:06:20 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/23 20:44:52 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,14 @@
 # include<stdlib.h>
 # include<pthread.h>
 
-
 //-------PRINTF COLORS-------//
-#define RESET	"\x1B[0m"
-#define RED		"\x1B[31m"
-#define GREEN	"\x1B[32m"
-#define YELLOW	"\x1B[33m"
-#define BLUE    "\x1B[34m"
-#define MAGENTA "\x1B[35m"
-#define CYAN    "\x1B[36m"
-
+# define RESET	"\x1B[0m"
+# define RED		"\x1B[31m"
+# define GREEN	"\x1B[32m"
+# define YELLOW	"\x1B[33m"
+# define BLUE    "\x1B[34m"
+# define MAGENTA "\x1B[35m"
+# define CYAN    "\x1B[36m"
 
 //-------STRUCTS-------//
 typedef enum s_activity
@@ -46,8 +44,8 @@ typedef enum s_activity
 	RLS_FORK_R,
 	DEAD,
 }			t_activity;
-						
-typedef	struct s_philo
+
+typedef struct s_philo
 {
 	bool				is_eating;
 	bool				fully_ate;
@@ -82,7 +80,7 @@ typedef struct s_data
 }						t_data;
 
 //-------UTILS-------//
-void				raise_error(char *message);
+void				raise_error(t_data *data, char *message);
 int					ft_atoi(const char *str);
 int					check_data(int argc, char **argv);
 int					ft_strlen(const char *s);
@@ -91,22 +89,16 @@ void				own_usleep(t_philo *philo, long milliseconds);
 void				output_message(t_philo *philo, t_activity activity);
 void				update_time_last_meal(t_philo *philo);
 int					return_forks(t_philo *philo);
-
-
+bool				check_if_alive(t_philo *philo);
+bool				check_if_full(t_data *data);
+bool				is_dead(t_philo *philo);
+int					free_data(t_data *data);
+void				*watcher_thread(void *data_pt);
 
 //-------INITIALIZE-------//
 int					initialize_data(t_data *data, int argc, char **argv);
 int					initialize_philo_data(t_data *data);
 int					initialize_forks(t_data *data);
 int					create_philos(t_data *data);
-
-
-
-//-------FREE-------//
-int					free_data(t_data *data);
-
-
-void				*watcher_thread(void *data_pt);
-bool				is_dead(t_philo *philo);
 
 #endif

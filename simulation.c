@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/21 22:52:41 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/23 20:41:49 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,20 @@
 
 static int	take_forks(t_philo *philo)
 {
-	if (pthread_mutex_lock(&philo->data->forks[philo->right_fork]) != 0)
-		return (1);
+	pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
 	output_message(philo, FORK_R);
 	if (philo->data->nr_philo == 1)
 		return (0);
-	if (pthread_mutex_lock(&philo->data->forks[philo->left_fork]) != 0)
-		return (1);
+	pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
 	output_message(philo, FORK_L);
 	return (0);
 }
 
 int	return_forks(t_philo *philo)
 {
-	if (pthread_mutex_unlock(&philo->data->forks[philo->left_fork]) != 0)
-		return (1);
+	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
 	output_message(philo, RLS_FORK_L);
-	if (pthread_mutex_unlock(&philo->data->forks[philo->right_fork]) != 0)
-		return (1);
+	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
 	output_message(philo, RLS_FORK_R);
 	return (0);
 }
@@ -45,8 +41,6 @@ static void	eat(t_philo *philo)
 		pthread_mutex_lock(&philo->data->check_rounds);
 		philo->data->completed_rounds++;
 		pthread_mutex_unlock(&philo->data->check_rounds);
-		//return_forks(philo);
-		//philo->fully_ate = true;
 	}
 	output_message(philo, EAT);
 	own_usleep(philo, philo->data->eat_time);
@@ -59,15 +53,8 @@ static void	*routine(void *philo_pt)
 	philo = (t_philo *)philo_pt;
 	if (philo->pos % 2 == 0)
 		own_usleep(philo, 10);
-	while (philo->fully_ate == false)
+	while (check_if_alive(philo) == true)
 	{
-		pthread_mutex_lock(&philo->data->check_status);
-		if (philo->is_alive == false)
-		{
-			pthread_mutex_unlock(&philo->data->check_status);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->data->check_status);
 		if (take_forks(philo) == 1)
 			return (NULL);
 		if (philo->data->nr_philo == 1)

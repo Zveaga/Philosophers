@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/21 22:52:37 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/23 20:47:52 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,37 +29,46 @@ void	print_forks(t_data *data)
 	}
 }
 
-int	main(int argc, char **argv)
+static int	initializer(t_data *data, int argc, char **argv)
 {
-	t_data	*data;
-	atexit(check);
-	if (argc != 5 && argc != 6)
-	{
-		raise_error("Program should only have 4 or 5 arguments.");
-		return (1);
-	}
-	data = malloc(sizeof(t_data));
-	printf("\n---Size of t_data---:  %lu\n", sizeof(t_data));
-	if (!data)
-		raise_error("Failed to allocate memory for data struct");
 	if (initialize_data(data, argc, argv) == 1)
 	{
-		raise_error("Failed to initialize data struct");
+		raise_error(data, "Failed to initialize data struct");
 		return (1);
 	}
 	if (initialize_forks(data) == 1)
 	{
-		raise_error("Failed to initialize forks");
+		raise_error(data, "Failed to initialize forks");
 		return (1);
 	}
 	if (initialize_philo_data(data) == 1)
 	{
-		raise_error("Failed to initialize philo");
+		raise_error(data, "Failed to initialize philo");
 		return (1);
 	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	t_data	*data;
+
+	if (argc != 5 && argc != 6)
+	{
+		printf("Program should only have 4 or 5 arguments.");
+		return (1);
+	}
+	data = malloc(sizeof(t_data));
+	if (data == NULL)
+	{
+		raise_error(data, "Failed to allocate memory for data struct");
+		return (1);
+	}
+	if (initializer(data, argc, argv) == 1)
+		return (1);		
 	if (create_philos(data) == 1)
 	{
-		raise_error("Failed to create philos");
+		raise_error(data, "Failed to create philos");
 		return (1);
 	}
 	if (free_data(data) == 1)
@@ -69,12 +78,3 @@ int	main(int argc, char **argv)
 	}
 	return (EXIT_SUCCESS);
 }
-
-// if (data->completed_rounds == data->nr_philo)
-	// 	printf("\n----ALL PHILOSOPHERS ATE ENOUGH FOOD----\n");
-	//print_forks(data);
-	// printf("Nr philo: %d\n", data->nr_philo);
-	// printf("Die time: %d\n", data->nr_philo);
-	// printf("Eat_time: %d\n", data->nr_philo);
-	// printf("Sleep_time: %d\n", data->nr_philo);
-	//sleep(1);
