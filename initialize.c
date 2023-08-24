@@ -6,11 +6,11 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/24 11:47:01 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 13:30:07 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"philo.h"
+#include "philo.h"
 
 int	initialize_data(t_data *data, int argc, char **argv)
 {

@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/24 11:35:15 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 13:31:12 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define PHILO_H
 
 //-------LIBRARIES-------//
-# include<stdio.h>
-# include<stdbool.h>
-# include<unistd.h>
-# include<string.h>
-# include<stdlib.h>
-# include<sys/time.h>
-# include<stdlib.h>
-# include<pthread.h>
+# include <stdio.h>
+# include <stdbool.h>
+# include <unistd.h>
+# include <string.h>
+# include <stdlib.h>
+# include <sys/time.h>
+# include <stdlib.h>
+# include <pthread.h>
 
 //-------PRINTF COLORS-------//
 # define RESET	 "\x1B[0m"
@@ -62,7 +62,7 @@ typedef struct s_philo
 }						t_philo;
 
 typedef struct s_data
-{					
+{
 	bool				philo_alive;
 	int					nr_philo;
 	int					die_time;

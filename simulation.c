@@ -6,11 +6,11 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/23 20:50:15 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 13:30:24 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"philo.h"
+#include "philo.h"
 
 static int	take_forks(t_philo *philo)
 {

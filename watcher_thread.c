@@ -6,11 +6,11 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:08:47 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/23 20:50:12 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 13:30:20 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"philo.h"
+#include "philo.h"
 
 static void	set_death(t_data *data, int i)
 {

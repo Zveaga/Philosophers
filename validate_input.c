@@ -6,11 +6,11 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/15 12:20:59 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/23 20:50:18 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 13:30:22 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"philo.h"
+#include "philo.h"
 
 int	check_digit(char *str)
 {
