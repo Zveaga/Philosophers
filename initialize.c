@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/23 20:50:02 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 11:47:01 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int	initialize_data(t_data *data, int argc, char **argv)
 		data->required_rounds = ft_atoi(argv[5]);
 	else
 		data->required_rounds = -1;
+	if (data->nr_philo > 200)
+	{
+		printf("Too many threads!\n");
+		return (1);
+	}
 	return (0);
 }
 

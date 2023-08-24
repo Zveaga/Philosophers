@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/23 20:50:23 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 11:49:50 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,6 @@
 void	check(void)
 {
 	system("leaks -q philo");
-}
-
-void	print_forks(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nr_philo)
-	{
-		printf ("Philo %d: lf %d and rf %d\n", i + 1 , data->philos[i].left_fork + 1, data->philos[i].right_fork + 1);
-		i++;
-	}
 }
 
 static int	initializer(t_data *data, int argc, char **argv)
@@ -44,6 +32,11 @@ static int	initializer(t_data *data, int argc, char **argv)
 	if (initialize_philo_data(data) == 1)
 	{
 		raise_error(data, "Failed to initialize philo");
+		return (1);
+	}
+	if (create_philos(data) == 1)
+	{
+		raise_error(data, "Failed to create philos");
 		return (1);
 	}
 	return (0);
@@ -65,12 +58,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (initializer(data, argc, argv) == 1)
-		return (1);		
-	if (create_philos(data) == 1)
-	{
-		raise_error(data, "Failed to create philos");
 		return (1);
-	}
 	if (free_data(data) == 1)
 	{
 		printf("Failed to free memory\n");

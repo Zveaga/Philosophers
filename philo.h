@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/23 20:50:20 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 11:35:15 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 # include<pthread.h>
 
 //-------PRINTF COLORS-------//
-# define RESET	"\x1B[0m"
-# define RED		"\x1B[31m"
-# define GREEN	"\x1B[32m"
-# define YELLOW	"\x1B[33m"
+# define RESET	 "\x1B[0m"
+# define RED	 "\x1B[31m"
+# define GREEN	 "\x1B[32m"
+# define YELLOW	 "\x1B[33m"
 # define BLUE    "\x1B[34m"
-# define MAGENTA "\x1B[35m"
+# define MAG     "\x1B[35m"
 # define CYAN    "\x1B[36m"
 
 //-------STRUCTS-------//

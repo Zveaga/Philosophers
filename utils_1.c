@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 19:13:08 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/23 20:50:33 by rares         ########   odam.nl         */
+/*   Updated: 2023/08/24 11:34:44 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,21 @@ void	output_message(t_philo *philo, t_activity activity)
 	else if (activity == SLEEP)
 		printf(RED"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
 	else if (activity == THINK)
-		printf(MAGENTA"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
+		printf(MAG"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
 	else if (activity == FORK_R)
 		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
 			philo->pos, philo->right_fork + 1);
 	else if (activity == FORK_L)
 		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
 			philo->pos, philo->left_fork + 1);
-	else if (activity == RLS_FORK_L)
-		printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
-			philo->pos, philo->left_fork + 1);
-	else if (activity == RLS_FORK_R)
-		printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
-			philo->pos, philo->right_fork + 1);
 	else if (activity == DEAD)
 		printf("(%ld) Philo %d died\n", curr_time, philo->pos);
 	pthread_mutex_unlock(&philo->data->printing);
 }
+
+// else if (activity == RLS_FORK_L)
+// 	printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
+// 		philo->pos, philo->left_fork + 1);
+// else if (activity == RLS_FORK_R)
+// 	printf("(%ld) Philo %d has released a fork (%d)\n", curr_time,
+// 		philo->pos, philo->right_fork + 1);
