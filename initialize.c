@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/04 14:25:24 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 14:42:51 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	initialize_philo_data(t_data *data)
 		data->philos[i].is_alive = true;
 		data->philos[i].eat_rounds = 0;
 		data->philos[i].pos = i + 1;
-		data->philos[i].ms = 0;
 		data->philos[i].time_last_meal = 0;
 		data->philos[i].data = data;
 		data->philos[i].left_fork = i;

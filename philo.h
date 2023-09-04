@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 14:28:22 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 14:42:53 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_philo
 	bool				is_alive;
 	int					eat_rounds;
 	int					pos;
-	int					ms;
 	int					left_fork;
 	int					right_fork;
 	long				time_last_meal;
