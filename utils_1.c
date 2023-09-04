@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 19:13:08 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/24 13:29:53 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 14:30:04 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void	output_message(t_philo *philo, t_activity activity)
 	else if (activity == THINK)
 		printf(MAG"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
 	else if (activity == FORK_R)
-		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
-			philo->pos, philo->right_fork + 1);
+		printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
+			philo->pos);
 	else if (activity == FORK_L)
-		printf(BLUE"(%ld) Philo %d has taken a fork (%d)\n"RESET, curr_time,
-			philo->pos, philo->left_fork + 1);
+		printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
+			philo->pos);
 	else if (activity == DEAD)
 		printf("(%ld) Philo %d died\n", curr_time, philo->pos);
 	pthread_mutex_unlock(&philo->data->printing);

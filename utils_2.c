@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/08/24 13:29:38 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 14:16:38 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ void	own_usleep(t_philo *philo, long milliseconds)
 {
 	long int		start_time;
 
-	(void)philo;
 	start_time = current_time();
 	while ((current_time() - start_time) < milliseconds)
-		usleep(200);
+	{
+		if (check_if_alive(philo) == false)
+			break ;
+		usleep(250);
+	}
 }
 
 bool	is_dead(t_philo *philo)

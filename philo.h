@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/24 13:31:12 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 14:28:22 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ typedef enum s_activity
 	THINK,
 	FORK_R,
 	FORK_L,
-	RLS_FORK_L,
-	RLS_FORK_R,
 	DEAD,
 }			t_activity;
 
@@ -88,7 +86,6 @@ long int			current_time(void);
 void				own_usleep(t_philo *philo, long milliseconds);
 void				output_message(t_philo *philo, t_activity activity);
 void				update_time_last_meal(t_philo *philo);
-int					return_forks(t_philo *philo);
 bool				check_if_alive(t_philo *philo);
 bool				check_if_full(t_data *data);
 bool				is_dead(t_philo *philo);

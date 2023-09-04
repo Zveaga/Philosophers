@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/24 13:30:24 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 14:28:48 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,10 @@ static int	take_forks(t_philo *philo)
 	return (0);
 }
 
-int	return_forks(t_philo *philo)
+static void	return_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
-	output_message(philo, RLS_FORK_L);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
-	output_message(philo, RLS_FORK_R);
-	return (0);
 }
 
 static void	eat(t_philo *philo)
@@ -63,8 +60,7 @@ static void	*routine(void *philo_pt)
 			return (NULL);
 		}
 		eat(philo);
-		if (return_forks(philo) == 1)
-			return (NULL);
+		return_forks(philo);
 		output_message(philo, SLEEP);
 		own_usleep(philo, philo->data->sleep_time);
 		output_message(philo, THINK);
