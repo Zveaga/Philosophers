@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 14:42:53 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 15:06:22 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef enum s_activity
 typedef struct s_philo
 {
 	bool				is_eating;
-	bool				fully_ate;
 	bool				is_alive;
 	int					eat_rounds;
 	int					pos;

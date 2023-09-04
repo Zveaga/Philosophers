@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 14:28:48 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 15:16:18 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static void	*routine(void *philo_pt)
 			pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
 			return (NULL);
 		}
-		eat(philo);
+		if (philo->eat_rounds != philo->data->required_rounds)
+			eat(philo);
 		return_forks(philo);
 		output_message(philo, SLEEP);
 		own_usleep(philo, philo->data->sleep_time);

@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/04 14:42:51 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 15:21:01 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	initialize_data(t_data *data, int argc, char **argv)
 		printf("Too many threads!\n");
 		return (1);
 	}
+	if (argc == 6 && data->required_rounds == 0)
+		return (1);
 	return (0);
 }
 
@@ -114,7 +116,6 @@ int	initialize_philo_data(t_data *data)
 	while (i < data->nr_philo)
 	{
 		data->philos[i].is_eating = false;
-		data->philos[i].fully_ate = false;
 		data->philos[i].is_alive = true;
 		data->philos[i].eat_rounds = 0;
 		data->philos[i].pos = i + 1;
