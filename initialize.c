@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/04 15:21:01 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 18:41:50 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	initialize_data(t_data *data, int argc, char **argv)
 		printf("Invalid arguments.\n");
 		return (1);
 	}
+	data->stop = false;
 	data->philo_alive = true;
 	data->nr_philo = ft_atoi(argv[1]);
 	data->die_time = ft_atoi(argv[2]);
@@ -31,9 +32,9 @@ int	initialize_data(t_data *data, int argc, char **argv)
 		data->required_rounds = ft_atoi(argv[5]);
 	else
 		data->required_rounds = -1;
-	if (data->nr_philo > 200)
+	if (data->nr_philo > 200 || data->eat_time == 0 || data->sleep_time == 0)
 	{
-		printf("Too many threads!\n");
+		printf("Arguments out of bounds!\n");
 		return (1);
 	}
 	if (argc == 6 && data->required_rounds == 0)

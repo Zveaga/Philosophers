@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 19:13:08 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 15:15:45 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 19:01:25 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ void	output_message(t_philo *philo, t_activity activity)
 {
 	long int	curr_time;
 
-	if (check_if_alive(philo) == false)
+	if (philo->data->stop == true || check_if_alive(philo) == false)
 		return ;
+	// if (check_if_alive(philo) == false || philo->data->stop == true)
+	// 	return ;
 	curr_time = current_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->printing);
 	if (activity == EAT)

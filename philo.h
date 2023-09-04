@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 15:06:22 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 18:59:17 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_philo
 
 typedef struct s_data
 {
+	bool				stop;
 	bool				philo_alive;
 	int					nr_philo;
 	int					die_time;
@@ -95,5 +96,8 @@ int					initialize_data(t_data *data, int argc, char **argv);
 int					initialize_philo_data(t_data *data);
 int					initialize_forks(t_data *data);
 int					create_philos(t_data *data);
+
+bool				check_if_stop(t_data *data);
+
 
 #endif

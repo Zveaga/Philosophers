@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 15:16:18 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 19:02:10 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	*routine(void *philo_pt)
 	philo = (t_philo *)philo_pt;
 	if (philo->pos % 2 == 0)
 		own_usleep(philo, 10);
-	while (check_if_alive(philo) == true)
+	while (philo->data->stop == false && check_if_alive(philo) == true)
 	{
 		if (take_forks(philo) == 1)
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/15 12:20:59 by rares         #+#    #+#                 */
-/*   Updated: 2023/08/24 13:30:22 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/04 18:41:42 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	check_digit(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '\0')
+		return (1);
 	while (str && str[i])
 	{
-		if (str[i] == '+' || str[i] == '-')
-			i++;
 		if (str[i] < '0' || str[i] > '9')
 			return (1);
 		i++;
