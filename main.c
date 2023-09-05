@@ -6,17 +6,22 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/04 14:15:14 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/05 16:07:55 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	check(void)
+{
+	system("leaks -q philo");
+}
+
 static int	initializer(t_data *data, int argc, char **argv)
 {
 	if (initialize_data(data, argc, argv) == 1)
 	{
-		raise_error(data, "Failed to initialize data struct");
+		raise_error(data, "Failed to initialize data");
 		return (1);
 	}
 	if (initialize_forks(data) == 1)
@@ -40,7 +45,7 @@ static int	initializer(t_data *data, int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_data	*data;
-
+	//atexit(check);
 	if (argc != 5 && argc != 6)
 	{
 		printf("Program should only have 4 or 5 arguments.");
@@ -78,7 +83,7 @@ static int	destroy_simple_mutex(t_data *data)
 int	free_data(t_data *data)
 {
 	int	i;
-
+	
 	if (data == NULL)
 		return (0);
 	if (data->forks != NULL)
@@ -86,7 +91,7 @@ int	free_data(t_data *data)
 		if (destroy_simple_mutex(data) != 0)
 			return (1);
 	}
-	if (data->philos != NULL)
+	if (data->forks_initialized == true)
 	{
 		i = 0;
 		while (i < data->nr_philo)
@@ -95,11 +100,11 @@ int	free_data(t_data *data)
 				return (1);
 			i++;
 		}
-		free(data->forks);
-		free(data->philos);
 	}
-	if (data->philos == NULL && data->forks != NULL)
-		free(data->forks);
+	// if (data->forks != NULL && data->philos == NULL)
+	// 	free(data->forks);
+	free(data->philos);
+	free(data->forks);
 	free(data);
 	return (0);
 }

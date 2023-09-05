@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 19:13:08 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 19:01:25 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/05 15:37:20 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,27 @@ void	output_message(t_philo *philo, t_activity activity)
 {
 	long int	curr_time;
 
-	if (philo->data->stop == true || check_if_alive(philo) == false)
+	if (check_if_stop(philo->data) == true)
 		return ;
-	// if (check_if_alive(philo) == false || philo->data->stop == true)
-	// 	return ;
-	curr_time = current_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->printing);
-	if (activity == EAT)
-		printf(GREEN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
-	else if (activity == SLEEP)
-		printf(RED"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
-	else if (activity == THINK)
-		printf(MAG"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
-	else if (activity == FORK_R)
-		printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
-			philo->pos);
-	else if (activity == FORK_L)
-		printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
-			philo->pos);
-	else if (activity == DEAD)
-		printf("(%ld) Philo %d died\n", curr_time, philo->pos);
+	curr_time = current_time() - philo->data->start_time;
+	if (check_if_stop(philo->data) == false)
+	{
+		if (activity == EAT)
+			printf(GRN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
+		else if (activity == SLEEP)
+			printf(R"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
+		else if (activity == THINK)
+			printf(M"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
+		else if (activity == FORK_R)
+			printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
+				philo->pos);
+		else if (activity == FORK_L)
+			printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
+				philo->pos);
+		else if (activity == DEAD)
+			printf(YELLOW"(%ld) Philo %d died\n"RESET, curr_time, philo->pos);
+	}	
 	pthread_mutex_unlock(&philo->data->printing);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 19:02:10 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/05 16:12:27 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	eat(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->data->check_rounds);
 		philo->data->completed_rounds++;
+		philo->fully_ate = true;
 		pthread_mutex_unlock(&philo->data->check_rounds);
 	}
 	output_message(philo, EAT);
@@ -50,7 +51,7 @@ static void	*routine(void *philo_pt)
 	philo = (t_philo *)philo_pt;
 	if (philo->pos % 2 == 0)
 		own_usleep(philo, 10);
-	while (philo->data->stop == false && check_if_alive(philo) == true)
+	while (check_if_stop(philo->data) == false && philo->fully_ate == false)
 	{
 		if (take_forks(philo) == 1)
 			return (NULL);
@@ -59,8 +60,7 @@ static void	*routine(void *philo_pt)
 			pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
 			return (NULL);
 		}
-		if (philo->eat_rounds != philo->data->required_rounds)
-			eat(philo);
+		eat(philo);
 		return_forks(philo);
 		output_message(philo, SLEEP);
 		own_usleep(philo, philo->data->sleep_time);
@@ -84,10 +84,12 @@ int	create_philos(t_data *data)
 			return (1);
 		i++;
 	}
+	usleep(10000);
 	if (pthread_create(&watcher, NULL, &watcher_thread, data) != 0)
 		return (1);
 	if (pthread_join(watcher, NULL) != 0)
 		return (1);
+	usleep(1000000);
 	i = 0;
 	while (i < data->nr_philo)
 	{

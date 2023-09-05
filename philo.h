@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/04 18:59:17 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/05 16:01:23 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 
 //-------PRINTF COLORS-------//
 # define RESET	 "\x1B[0m"
-# define RED	 "\x1B[31m"
-# define GREEN	 "\x1B[32m"
+# define R	 	 "\x1B[31m"
+# define GRN	 "\x1B[32m"
 # define YELLOW	 "\x1B[33m"
 # define BLUE    "\x1B[34m"
-# define MAG     "\x1B[35m"
+# define M       "\x1B[35m"
 # define CYAN    "\x1B[36m"
 
 //-------STRUCTS-------//
@@ -46,7 +46,8 @@ typedef enum s_activity
 typedef struct s_philo
 {
 	bool				is_eating;
-	bool				is_alive;
+	//bool				is_alive;
+	bool				fully_ate;
 	int					eat_rounds;
 	int					pos;
 	int					left_fork;
@@ -61,6 +62,7 @@ typedef struct s_data
 {
 	bool				stop;
 	bool				philo_alive;
+	bool				forks_initialized;
 	int					nr_philo;
 	int					die_time;
 	int					eat_time;
@@ -98,6 +100,5 @@ int					initialize_forks(t_data *data);
 int					create_philos(t_data *data);
 
 bool				check_if_stop(t_data *data);
-
 
 #endif
