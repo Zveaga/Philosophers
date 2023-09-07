@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:01:48 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/07 15:39:25 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 16:17:50 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static void	*routine(void *philo_pt)
 		eat(philo);
 		if (philo->fully_ate == true)
 			break ;
-		if (check_if_stop(philo->data) == true)
-			break ;
 		output_message(philo, SLEEP);
 		own_usleep(philo, philo->data->sleep_time);
 		output_message(philo, THINK);
@@ -89,12 +87,9 @@ int	create_philos(t_data *data)
 	}
 	if (pthread_create(&watcher, NULL, &watcher_thread, data) != 0)
 		return (1);
-	usleep(100000);
 	if (pthread_join(watcher, NULL) != 0)
 		return (1);
 	i = 0;
-	usleep(1000000);
-
 	while (i < data->nr_philo)
 	{
 		if (pthread_join(data->philos[i].thread_id, NULL) != 0)

@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:08:47 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/07 15:40:21 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 17:57:46 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ bool	check_if_stop(t_data *data)
 	return (status);
 }
 
+void	print_death_message(t_philo *philo)
+{
+	long int	curr_time;
+
+	if (check_if_full(philo) == true)
+		return ;
+	curr_time = current_time() - philo->data->start_time;
+	printf(YELLOW"(%ld) Philo %d died\n"RESET, curr_time, philo->pos);
+}
+
 void	*watcher_thread(void *data_pt)
 {
 	int		i;
@@ -40,9 +50,8 @@ void	*watcher_thread(void *data_pt)
 	{
 		if (is_dead(&data->philos[i]) == true)
 		{
-			//own_usleep(&data->philos[i], 10);
-			output_message(&data->philos[i], DEAD);
 			stop_simulation(data);
+			print_death_message(&data->philos[i]);
 			break ;
 		}
 		if (i == data->nr_philo)

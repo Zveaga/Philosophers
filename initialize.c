@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/07 13:51:08 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 18:05:33 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	initialize_data(t_data *data, int argc, char **argv)
 		data->required_rounds = ft_atoi(argv[5]);
 	else
 		data->required_rounds = -1;
-	if (data->nr_philo > 500 || data->eat_time == 0 || data->sleep_time == 0)
+	if (data->nr_philo > 500 || data->eat_time < 50
+		|| data->sleep_time < 50 || data->die_time < 50)
 	{
 		printf("Arguments out of bounds!\n");
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/07 14:28:23 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 18:05:54 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	initializer(t_data *data, int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_data	*data;
-	//atexit(check);
+
 	if (argc != 5 && argc != 6)
 	{
 		printf("Program should only have 4 or 5 arguments.");
