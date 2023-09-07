@@ -6,16 +6,15 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:08:47 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/05 15:38:15 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 15:40:21 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	stop_simulation(t_data *data)
+void	stop_simulation(t_data *data)
 {
 	pthread_mutex_lock(&data->check_status);
-	data->philo_alive = false;
 	data->stop = true;
 	pthread_mutex_unlock(&data->check_status);
 }
@@ -37,10 +36,11 @@ void	*watcher_thread(void *data_pt)
 
 	i = 0;
 	data = (t_data *) data_pt;
-	while (check_if_stop(data) == false && check_if_full(data) == false)
+	while ((check_if_stop(data) == false))
 	{
 		if (is_dead(&data->philos[i]) == true)
 		{
+			//own_usleep(&data->philos[i], 10);
 			output_message(&data->philos[i], DEAD);
 			stop_simulation(data);
 			break ;

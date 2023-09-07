@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/05 16:01:23 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 14:38:57 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef enum s_activity
 typedef struct s_philo
 {
 	bool				is_eating;
-	//bool				is_alive;
 	bool				fully_ate;
 	int					eat_rounds;
 	int					pos;
@@ -88,7 +87,7 @@ void				own_usleep(t_philo *philo, long milliseconds);
 void				output_message(t_philo *philo, t_activity activity);
 void				update_time_last_meal(t_philo *philo);
 bool				check_if_alive(t_philo *philo);
-bool				check_if_full(t_data *data);
+bool				check_if_full(t_philo *philo);
 bool				is_dead(t_philo *philo);
 int					free_data(t_data *data);
 void				*watcher_thread(void *data_pt);
@@ -100,5 +99,6 @@ int					initialize_forks(t_data *data);
 int					create_philos(t_data *data);
 
 bool				check_if_stop(t_data *data);
+void				stop_simulation(t_data *data);
 
 #endif

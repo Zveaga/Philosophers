@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:51:21 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/05 16:05:23 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 13:51:08 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int	initialize_philo_data(t_data *data)
 	while (i < data->nr_philo)
 	{
 		data->philos[i].is_eating = false;
-		//data->philos[i].is_alive = true;
 		data->philos[i].fully_ate = false;
 		data->philos[i].eat_rounds = 0;
 		data->philos[i].pos = i + 1;

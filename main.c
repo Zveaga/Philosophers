@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:16:19 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/05 16:07:55 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 14:28:23 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	destroy_simple_mutex(t_data *data)
 int	free_data(t_data *data)
 {
 	int	i;
-	
+
 	if (data == NULL)
 		return (0);
 	if (data->forks != NULL)
@@ -101,8 +101,6 @@ int	free_data(t_data *data)
 			i++;
 		}
 	}
-	// if (data->forks != NULL && data->philos == NULL)
-	// 	free(data->forks);
 	free(data->philos);
 	free(data->forks);
 	free(data);

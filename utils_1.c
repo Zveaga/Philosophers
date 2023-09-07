@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 19:13:08 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/05 15:37:20 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 15:31:17 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	output_message(t_philo *philo, t_activity activity)
 {
 	long int	curr_time;
 
+	if (check_if_full(philo) == true)
+		return ;
 	if (check_if_stop(philo->data) == true)
 		return ;
 	pthread_mutex_lock(&philo->data->printing);
@@ -84,7 +86,10 @@ void	output_message(t_philo *philo, t_activity activity)
 			printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
 				philo->pos);
 		else if (activity == DEAD)
+		{
+			own_usleep(philo, 5);
 			printf(YELLOW"(%ld) Philo %d died\n"RESET, curr_time, philo->pos);
+		}
 	}	
 	pthread_mutex_unlock(&philo->data->printing);
 }

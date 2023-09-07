@@ -6,7 +6,7 @@
 /*   By: raanghel <raanghel@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 12:32:38 by raanghel      #+#    #+#                 */
-/*   Updated: 2023/09/05 14:28:36 by rares         ########   odam.nl         */
+/*   Updated: 2023/09/07 15:04:11 by rares         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	own_usleep(t_philo *philo, long milliseconds)
 	start_time = current_time();
 	while ((current_time() - start_time) < milliseconds)
 	{
-		if (check_if_stop(philo->data) == true || philo->fully_ate == true)
+		if (check_if_stop(philo->data) == true || check_if_full(philo) == true)
 			break ;
 		usleep(200);
 	}
@@ -49,17 +49,15 @@ bool	is_dead(t_philo *philo)
 	return (status);
 }
 
-bool	check_if_full(t_data *data)
+bool	check_if_full(t_philo *philo)
 {
 	bool	status;
 
-	pthread_mutex_lock(&data->check_rounds);
-	if (data->completed_rounds == data->nr_philo)
-	{
+	pthread_mutex_lock(&philo->data->check_rounds);
+	if (philo->fully_ate == true)
 		status = true;
-	}
 	else
 		status = false;
-	pthread_mutex_unlock(&data->check_rounds);
+	pthread_mutex_unlock(&philo->data->check_rounds);
 	return (status);
 }
