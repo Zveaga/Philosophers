@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 13:08:47 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/07 17:57:46 by raanghel      ########   odam.nl         */
+/*   Updated: 2023/09/26 11:58:46 by raanghel      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,3 @@ void	*watcher_thread(void *data_pt)
 	stop_simulation(data);
 	return (NULL);
 }
-
-// static void	set_death(t_data *data, int i)
-// {
-// 	pthread_mutex_lock(&data->check_status);
-// 	data->philos[i].is_alive = false;
-// 	pthread_mutex_unlock(&data->check_status);
-// }
-// printf(YELLOW"\n(%ld) Philo %d died!\n"RESET,
-// 	current_time() - data->start_time, data->philos[i].pos);
-
-// bool	check_if_alive(t_philo *philo)
-// {
-// 	bool	status;
-
-// 	pthread_mutex_lock(&philo->data->check_status);
-// 	status = philo->is_alive;
-// 	pthread_mutex_unlock(&philo->data->check_status);
-// 	return (status);
-// }
