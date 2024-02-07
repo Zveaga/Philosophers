@@ -23,7 +23,7 @@ make
 ```
 This will create an executable called `philo`.
 
-The program takes must take 4 or 5 arguments:
+The program takes can take 4 or 5 arguments:
 - `number_of_philosophers`: The number of philosophers and also the number
 of forks.
 - `time_to_die` (in milliseconds): If a philosopher didn’t start eating `time_to_die`
