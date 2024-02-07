@@ -37,7 +37,7 @@ philosophers have eaten at least `number_of_times_each_philosopher_must_eat
 times`, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
 
-Example of the program can be ran (you can modify the value of the arguments):<br>
+Example of the program can be ran (you can modify the value of the arguments):  
 Without the optional argument:
 ```
 ./philo 10 500 200 200
