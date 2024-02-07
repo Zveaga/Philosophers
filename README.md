@@ -1,7 +1,53 @@
 # Philosophers
 The dining philosophers problem is a clasic example of a computer science and concurrent programming. It illustrates syncronization issues and methods of resolving them in a multi-process or multi-threaded program.
 
-## Instructions
+## Key Concepts
+- Multithreading
+- Synchronization mechanisms
+- Concurrency
+- Parrallel programming
+- Mutexes and deadlocks
+
+
+## How To Run
+Clone the repository:
+```
+git clone git@github.com:Zveaga/Philosophers.git
+```
+Move inside the directory:
+```
+cd Philosophers
+```
+Compile:
+```
+make
+```
+This will create an executable called `philo`.
+
+The program takes must take 4 or 5 arguments:
+- `number_of_philosophers`: The number of philosophers and also the number
+of forks.
+- `time_to_die` (in milliseconds): If a philosopher didn’t start eating `time_to_die`
+milliseconds since the beginning of their last meal or the beginning of the simulation, they die.
+- `time_to_eat` (in milliseconds): The time it takes for a philosopher to eat.
+During that time, they will need to hold two forks.
+- `time_to_sleep` (in milliseconds): The time a philosopher will spend sleeping.
+- `number_of_times_each_philosopher_must_eat` (optional argument): If all
+philosophers have eaten at least `number_of_times_each_philosopher_must_eat
+times`, the simulation stops. If not specified, the simulation stops when a
+philosopher dies.
+
+Example of the program can be ran (you can modify the value of the arguments):
+Without the optional argument:
+```
+./philo 10 500 200 200
+```
+With the optional argument:
+```
+./philo 10 500 200 200 5
+```
+
+## Program Instructions
 - One or more philosophers sit at a round table.
 - There is a large bowl of spaghetti in the middle of the table.
 - The philosophers alternatively eat, think, or sleep.
@@ -18,31 +64,3 @@ The dining philosophers problem is a clasic example of a computer science and co
 - Philosophers don’t speak with each other.
 - Philosophers don’t know if another philosopher is about to die.
 - Philosophers should avoid dying
-
-
-## Key Concepts
-- Multithreading
-- Synchronization mechanisms
-- Concurrency
-- Parrallel programming
-- Mutexes and deadlocks
-
-## How To Use
-Clone the repository:
-```
-git clone 
-```
-Move inside the directory:
-```
-cd 
-```
-Compile:
-```
-makez
-```
-This will create an executable called ``.
-
-Run it:
-```
-./
-```
