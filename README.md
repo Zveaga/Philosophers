@@ -8,7 +8,6 @@ The dining philosophers problem is a clasic example of a computer science and co
 - Parrallel programming
 - Mutexes and deadlocks
 
-
 ## How To Run
 Clone the repository:
 ```
@@ -37,7 +36,7 @@ philosophers have eaten at least `number_of_times_each_philosopher_must_eat
 times`, the simulation stops. If not specified, the simulation stops when a
 philosopher dies.
 
-Example of the program can be ran (you can modify the value of the arguments):  
+Example of how the program shoud be ran:  
 Without the optional argument:
 ```
 ./philo 10 500 200 200
@@ -46,6 +45,7 @@ With the optional argument:
 ```
 ./philo 10 500 200 200 5
 ```
+You can modify the value of the arguments.
 
 ## Program Instructions
 - One or more philosophers sit at a round table.
