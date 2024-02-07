@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/01 18:11:27 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/07 14:38:57 by rares         ########   odam.nl         */
+/*   Updated: 2024/02/07 19:13:26 by coxer         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 
 //-------PRINTF COLORS-------//
 # define RESET	 "\x1B[0m"
-# define R	 	 "\x1B[31m"
+# define RED 	 "\x1B[31m"
 # define GRN	 "\x1B[32m"
 # define YELLOW	 "\x1B[33m"
 # define BLUE    "\x1B[34m"
-# define M       "\x1B[35m"
+# define MAGENTA "\x1B[35m"
 # define CYAN    "\x1B[36m"
 
 //-------STRUCTS-------//

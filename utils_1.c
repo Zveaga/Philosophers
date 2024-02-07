@@ -6,7 +6,7 @@
 /*   By: rares <rares@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/23 19:13:08 by rares         #+#    #+#                 */
-/*   Updated: 2023/09/07 17:57:49 by raanghel      ########   odam.nl         */
+/*   Updated: 2024/02/07 19:13:16 by coxer         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	output_message(t_philo *philo, t_activity activity)
 		if (activity == EAT)
 			printf(GRN"(%ld) Philo %d is eating\n"RESET, curr_time, philo->pos);
 		else if (activity == SLEEP)
-			printf(R"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
+			printf(RED"(%ld) Philo %d is sleeping\n"RESET, curr_time, philo->pos);
 		else if (activity == THINK)
-			printf(M"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
+			printf(MAGENTA"(%ld) Philo %d is thinking\n"RESET, curr_time, philo->pos);
 		else if (activity == FORK_R)
 			printf(BLUE"(%ld) Philo %d has taken a fork\n"RESET, curr_time,
 				philo->pos);
