@@ -1,5 +1,5 @@
 # Philosophers
-The dining philosophers problem is a clasic example of a computer science and concurrent programming. It illustrates syncronization issues and methods of resolving them in a multi-process or multi-threaded program.
+The dining philosophers is a clasic example of a computer science concurency problem. It demonstrates the the challenges of ensuring the proper allocation of resources and illustrates syncronization issues and methods of resolving them in a multi-process or multi-threaded program.
 
 ## Key Concepts
 - Multithreading
